@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">DocPocket</string>
+    <string name="nombreUsuario"></string>
+    <string name="lenguajeJava">Java</string>
+    <string name="lenguajeCSharp">C#</string>
 </resources>
