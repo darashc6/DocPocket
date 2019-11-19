@@ -17,7 +17,9 @@ public class AdapterParaFragmentos extends FragmentPagerAdapter {
      * Constructor de FragmentPageAdapter
      * @param fm
      */
+
     public AdapterParaFragmentos(@NonNull FragmentManager fm) {
+
         super(fm);
     }
 
@@ -29,6 +31,7 @@ public class AdapterParaFragmentos extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
+
         return listaFragmentos.get(position);
     }
 
@@ -38,6 +41,7 @@ public class AdapterParaFragmentos extends FragmentPagerAdapter {
      */
     @Override
     public int getCount() {
+
         return listaFragmentos.size();
     }
 
@@ -45,7 +49,9 @@ public class AdapterParaFragmentos extends FragmentPagerAdapter {
      * Función que añade un nuevo fragmento a la lista
      * @param f Fragmento a añadir
      */
+
     public void nuevoFragmento(Fragment f) {
+
         listaFragmentos.add(f);
     }
 }

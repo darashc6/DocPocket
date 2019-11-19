@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "119468812048",
+    "firebase_url": "https://fir-docpocket.firebaseio.com",
+    "project_id": "fir-docpocket",
+    "storage_bucket": "fir-docpocket.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119468812048:android:0715cedf1b0fe1ee50a795",
+        "android_client_info": {
+          "package_name": "es.losinutiles.docpocket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119468812048-07vmroeh7qulc4du6a6pj19unnt3jf65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTuJxbbm0kJACvK80-t-PH77mCp7LLbcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119468812048-07vmroeh7qulc4du6a6pj19unnt3jf65.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
