@@ -2,9 +2,15 @@ package es.losinutiles.docpocket;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.BoringLayout;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -12,12 +18,10 @@ public class MainActivity extends AppCompatActivity {
     private AdapterParaFragmentos adapter; // Adapter utilizado para los fragmentos
     private ViewPager viewPager; // Despalzar los fragmentos deslizando hacia la izquierda o derecha
     private Toolbar toolbar; // Lo utilizaremos para mostrar las opciones (Los 3 puntitos) - TODO
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         adapter=new AdapterParaFragmentos(getSupportFragmentManager());
         viewPager=findViewById(R.id.viewPager);
         toolbar=findViewById(R.id.toolbar);
