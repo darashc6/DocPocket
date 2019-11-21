@@ -16,6 +16,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.SparseArray;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.Frame;
@@ -25,18 +29,33 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class ActividadCamara extends AppCompatActivity {
+    private Bundle b;
     private String[] permisosCamara;
     private Uri uri_imagen;
-    private static int camaraIDPermision;
-    private static int cogerImagenCamaraID;
+    private LinearLayout datosEscaneados;
+    private ImageView imagenCamara;
+    private TextView textoEscaneado;
+    private TextView lenguajeElegido;
+    private static int camaraIDPermision=300;
+    private static int cogerImagenCamaraID=300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_actividad_camara);
+
         permisosCamara=new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         uri_imagen=null;
-        camaraIDPermision=300;
-        cogerImagenCamaraID=1000;
+        datosEscaneados=findViewById(R.id.datosEscaneado);
+        imagenCamara=findViewById(R.id.imagenCamara);
+        textoEscaneado=findViewById(R.id.textoEscaneado);
+        lenguajeElegido=findViewById(R.id.lenguajeElegido);
+        datosEscaneados.setVisibility(View.INVISIBLE);
+
+        b=getIntent().getExtras();
+        lenguajeElegido.setText("Ha elegido el lenguaje "+b.getString("lenguajeElegido"));
+
+        activarCamara();
     }
 
     /**
@@ -68,8 +87,8 @@ public class ActividadCamara extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == camaraIDPermision) {
             if (grantResults.length>0) {
-                if (grantResults[0]==PackageManager.PERMISSION_GRANTED) {
-                    // TODO intentCamara();
+                if (grantResults[0]==PackageManager.PERMISSION_GRANTED&&grantResults[1]==PackageManager.PERMISSION_GRANTED) {
+                    intentCamara();
                 } else {
                     Toast.makeText(this, "Permiso DENEGADO. Por favor, proporcionanos con los permisos necesarios", Toast.LENGTH_LONG).show();
                 }
@@ -90,7 +109,7 @@ public class ActividadCamara extends AppCompatActivity {
             }
         } else {
             // Si tenemos los permisos necesarios para llevar a cabo la camara, hacemos un intent de la camara
-            // TODO intentCamara();
+            intentCamara();
         }
     }
 
@@ -133,11 +152,11 @@ public class ActividadCamara extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 Uri imagenCropUri=imagenCrop.getUri(); // Conseguir la uri de la imagen cropeada
                 // Ponemos esa imagen cropeada en imageView
-                // imCrop.setImageURI(imagenCropUri); // TODO Poner ImageView
+                imagenCamara.setImageURI(imagenCropUri);
 
                 // Para el reconocimiento de texto, necesitamos convertir esa imagen en drawable bitmap
-                // TODO BitmapDrawable bmd = (BitmapDrawable) imCrop.drawable;
-                // TODO Bitmap bm = bmd.bitmap;
+                BitmapDrawable bmd = (BitmapDrawable) imagenCamara.getDrawable();
+                Bitmap bm = bmd.getBitmap();
 
                 // Creamos el reconocedor de texto
                 TextRecognizer textRecognizer = new  TextRecognizer.Builder(getApplicationContext()).build();
@@ -145,21 +164,26 @@ public class ActividadCamara extends AppCompatActivity {
                 if (!textRecognizer.isOperational()) { // Comprueba si el detector está en funcionamiento
                     Toast.makeText(this, "textRecoginzer no disponible", Toast.LENGTH_SHORT).show();
                 } else {
-                    // TODO Frame frameCropeado = Frame.Builder().setBitmap(bm).build();
-                    // TODO SparseArray<TextBlock>  items = textRecognizer.detect(frameCropeado);
+                    Frame frameCropeado = new Frame.Builder().setBitmap(bm).build();
+                    SparseArray<TextBlock>  items = textRecognizer.detect(frameCropeado);
                     StringBuilder texto=new StringBuilder();
                     // Vamos a conseguir texto hasta que el frame no tenga texto
-                    /* TODO for (int i=0; i<items.length; i++) {
+                    for (int i=0; i<items.size(); i++) {
                         TextBlock item=items.valueAt(i);
-                        texto.append(item.value);
+                        texto.append(item.getValue());
                         texto.append("\n");
-                    }*/
-                    // TODO Intent pantallaDatos=new Intent(getApplicationContext(), ActivityTexto::class.java);
-                    Bundle bundleDatos=new Bundle();
-                    bundleDatos.putString("textoReconocido", texto.toString());
-                    // TODO pantallaDatos.putExtras(bundleDatos);
-                    // TODO startActivity(pantallaDatos);
+                    }
+                    textoEscaneado.setText(texto.toString());
                 }
+                datosEscaneados.setVisibility(View.VISIBLE);
+            } else {
+                // Esto se ejecuta en el caso de que en la opcion de recortar la imagen, el usuario quiere volver a la camara
+                finish();
+                Bundle bundleParaReiniciarActividad=new Bundle();
+                Intent reiniciarActividad=new Intent(this, ActividadCamara.class);
+                bundleParaReiniciarActividad.putString("lenguajeElegido", b.getString("lenguajeElegido"));
+                reiniciarActividad.putExtras(bundleParaReiniciarActividad);
+                startActivity(reiniciarActividad);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
