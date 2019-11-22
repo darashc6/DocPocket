@@ -1,5 +1,6 @@
 package es.losinutiles.docpocket;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.os.Bundle;
@@ -38,13 +39,15 @@ public class TabHistorial extends Fragment {
     //Todavia no puedo inicializar este array hasta que no tengamos
     //las imagenes guardadas del escaner.
 
-    int[] datosImagenes;
+    int[] datosImg={R.drawable.csharp_icon,R.drawable.csharp_icon,R.drawable.csharp_icon,R.drawable.csharp_icon};
 
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_historial, container, false);
         lista=view.findViewById(R.id.idLista);
+
+        lista.setAdapter(new AdaptadorListView(getContext(),datos,datosImg));
         return view;
     }
 
