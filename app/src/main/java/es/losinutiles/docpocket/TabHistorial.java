@@ -24,33 +24,33 @@ import androidx.viewpager.widget.ViewPager;
 public class TabHistorial extends Fragment {
     private Button boton1;
     private Switch botonSwitch;
+    private Context context;
     /**
      * Aqui introducimos los valores al listView.
      */
     ListView lista;
-    String [][] datos={
-            {"PruebaVariable","5 dias"},
-            {"PruebaVariable","6 dias"},
-            {"PruebaVariable","7 dias"},
-            {"PruebaVariable","9 dias"},
-            {"PruebaVariable","16 dias"},
+    String[][] datos = {
+            {"PruebaVariable", "5 dias"},
+            {"PruebaVariable", "6 dias"},
+            {"PruebaVariable", "7 dias"},
+            {"PruebaVariable", "9 dias"},
+            {"PruebaVariable", "16 dias"},
 
     };
     //Todavia no puedo inicializar este array hasta que no tengamos
     //las imagenes guardadas del escaner.
 
-    int[] datosImg={R.drawable.csharp_icon,R.drawable.csharp_icon,R.drawable.csharp_icon,R.drawable.csharp_icon};
+    int[] datosImg = {R.drawable.csharp_icon, R.drawable.csharp_icon, R.drawable.csharp_icon, R.drawable.csharp_icon};
 
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_historial, container, false);
-        lista=view.findViewById(R.id.idLista);
-
-        lista.setAdapter(new AdaptadorListView(getContext(),datos,datosImg));
+        lista = view.findViewById(R.id.idLista);
+        AdaptadorListView adapter=new AdaptadorListView(getContext(),datos,datosImg);
+        lista.setAdapter(adapter);
         return view;
     }
+}
 
-
-    }
 
