@@ -3,15 +3,24 @@ package es.losinutiles.docpocket;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class AdaptadorListView extends BaseAdapter {
     private static LayoutInflater inflater=null;
+    private DatabaseReference referencia;
     Context contexto;
     String [][] datos;
     int [] datosImg;
@@ -38,6 +47,45 @@ public class AdaptadorListView extends BaseAdapter {
         imagenHistorial.setImageResource(R.drawable.ic_today_black_24dp);
         imagenFlecha.setImageResource(R.drawable.ic_arrow_back_black_24dp);
 
+
+        /*
+        referencia=FirebaseDatabase.getInstance().getReference();
+        referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    String probar=dataSnapshot.child("FileWriter").getValue().toString();
+                    Log.e("Datos: ",""+probar);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+         */
+        /*
+        referencia= FirebaseDatabase.getInstance().getReference();
+        referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                   //Esto se encarga de sacar todos los datods que se encuentre dentro de DocumentacionJava
+                   //Que se encuentra en FireBase
+                   //Si se quiere sacar un unico valor, se puede crear una clase para sacar ese unico valor
+
+                    Log.e("Datos: ",""+snapshot.getValue());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    */
         /*
         imagenHistorial.setTag(i);
         imagenFlecha.setTag(i);

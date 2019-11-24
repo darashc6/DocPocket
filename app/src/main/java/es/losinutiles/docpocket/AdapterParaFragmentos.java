@@ -21,6 +21,7 @@ public class AdapterParaFragmentos extends FragmentPagerAdapter {
     public AdapterParaFragmentos(@NonNull FragmentManager fm) {
 
         super(fm);
+        
     }
 
     /**
