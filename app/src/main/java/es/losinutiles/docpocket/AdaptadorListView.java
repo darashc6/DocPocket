@@ -64,7 +64,7 @@ public class AdaptadorListView extends BaseAdapter {
         });
 */
 
-
+/*
         referencia= FirebaseDatabase.getInstance().getReference();
         referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
             @Override
@@ -83,13 +83,8 @@ public class AdaptadorListView extends BaseAdapter {
 
             }
         });
-<<<<<<< HEAD
 
-        /*
-=======
-    */
-
->>>>>>> 424a7f0a2d36a79c140f2e822cd17c5ecf9226eb
+ */
         imagenHistorial.setTag(i);
         imagenFoto.setTag(i);
 

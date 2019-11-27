@@ -5,13 +5,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.BoringLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.material.internal.NavigationMenu;
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager; // Despalzar los fragmentos deslizando hacia la izquierda o derecha
     private Toolbar toolbar; // Lo utilizaremos para mostrar las opciones (Los 3 puntitos) - TODO
     private FabSpeedDial opcionesCamara;
+    private Boolean modoDark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         crearViewPager(viewPager);
-
         TabLayout tb=findViewById(R.id.Tabs);
         tb.setupWithViewPager(viewPager); // Mete el viewPager creado dentro del TabLayout
         // Meter iconos del tab
@@ -83,4 +86,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-}
+    public void guardarDatosOscuro(Context context,Switch oscuro){
+        if(oscuro.isChecked()){
+            SharedPreferences preferences=context.getSharedPreferences("modoOscuro", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.putBoolean("idOscuro",true);
+            editor.commit();
+        }else{
+            SharedPreferences preferences=context.getSharedPreferences("modoOscuro", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.putBoolean("idOscuro",false);
+            editor.commit();
+        }
+    }
+    public Boolean CargarPreferencia(Context context){
+        SharedPreferences preferences=context.getSharedPreferences("modoOscuro", Context.MODE_PRIVATE);
+        return preferences.getBoolean("idOscuro",false);
+
+
+    }
+
+    }
+
