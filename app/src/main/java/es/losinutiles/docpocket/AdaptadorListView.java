@@ -48,8 +48,8 @@ public class AdaptadorListView extends BaseAdapter {
         imagenFlecha.setImageResource(R.drawable.ic_arrow_back_black_24dp);
 
 
-        /*
-        referencia=FirebaseDatabase.getInstance().getReference();
+
+        /*referencia=FirebaseDatabase.getInstance().getReference();
         referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -64,9 +64,9 @@ public class AdaptadorListView extends BaseAdapter {
 
             }
         });
+*/
 
-         */
-        /*
+
         referencia= FirebaseDatabase.getInstance().getReference();
         referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
             @Override
@@ -85,7 +85,7 @@ public class AdaptadorListView extends BaseAdapter {
 
             }
         });
-    */
+
         /*
         imagenHistorial.setTag(i);
         imagenFlecha.setTag(i);
