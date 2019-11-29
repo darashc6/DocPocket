@@ -42,7 +42,7 @@ public class TabFavoritos extends Fragment {
                 if(darkMode.isChecked()){
                     container.setBackgroundResource(R.color.modoOscuro);
                 }else{
-                    container.setBackgroundResource(R.color.colorPrimary);
+                    container.setBackgroundResource(R.color.Blanco);
                 }
             }
         });

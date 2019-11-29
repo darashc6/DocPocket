@@ -12,6 +12,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.BoringLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
@@ -19,6 +20,13 @@ import android.widget.Toast;
 
 import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.IOError;
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 
@@ -28,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar; // Lo utilizaremos para mostrar las opciones (Los 3 puntitos) - TODO
     private FabSpeedDial opcionesCamara;
     private Boolean modoDark;
+    private DatabaseReference referencia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,34 @@ public class MainActivity extends AppCompatActivity {
         tb.getTabAt(2).setIcon(getDrawable(R.drawable.icono_soporte));
 
         opcionesParaCamara();
+
+        try{
+            referencia= FirebaseDatabase.getInstance().getReference();
+            referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        //Implementado las consultas.
+                        //Hay que rellenar la base de datos con las clases y su respectivo valor en minuscula
+                        //Quitar filewriter del child y sustituirlo por el string que surge de la camara.
+                        //
+                        String probar=dataSnapshot.child("filewriter").toString();
+                        Toast.makeText(getApplicationContext(), probar+"", Toast.LENGTH_LONG).show();
+                        Log.d("Datos: ",""+probar.toUpperCase());
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No sabeis programar mataos", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }catch(IOError error){
+            error.getMessage();
+        }
     }
 
     /**

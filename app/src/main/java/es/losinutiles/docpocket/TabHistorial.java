@@ -46,7 +46,7 @@ public class TabHistorial extends Fragment {
         super.onStart();
         main=new MainActivity();
         if(!main.CargarPreferencia(getContext())){
-            contaner.setBackgroundResource(R.color.colorPrimary);
+            contaner.setBackgroundResource(R.color.Blanco);
         }else{
             contaner.setBackgroundResource(R.color.modoOscuro);
         }
