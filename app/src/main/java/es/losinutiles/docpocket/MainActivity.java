@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar; // Lo utilizaremos para mostrar las opciones (Los 3 puntitos) - TODO
     private FabSpeedDial opcionesCamara;
     private Boolean modoDark;
-    private DatabaseReference referencia;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,33 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         opcionesParaCamara();
 
-        try{
-            referencia= FirebaseDatabase.getInstance().getReference();
-            referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists()){
-                        //Implementado las consultas.
-                        //Hay que rellenar la base de datos con las clases y su respectivo valor en minuscula
-                        //Quitar filewriter del child y sustituirlo por el string que surge de la camara.
-                        //
-                        String probar=dataSnapshot.child("filewriter").toString();
-                        Toast.makeText(getApplicationContext(), probar+"", Toast.LENGTH_LONG).show();
-                        Log.d("Datos: ",""+probar.toUpperCase());
-                    } else {
-                        Toast.makeText(getApplicationContext(), "No sabeis programar mataos", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }catch(IOError error){
-            error.getMessage();
-        }
     }
 
     /**
