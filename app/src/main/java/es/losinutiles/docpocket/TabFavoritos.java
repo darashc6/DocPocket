@@ -21,16 +21,12 @@ import java.util.prefs.Preferences;
 
 public class TabFavoritos extends Fragment {
     private Button boton2;
-    private Switch darkMode;
     private AdaptadorListView adaptadorListView;
-    private MainActivity main;
     @Nullable
     @Override
     public  View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_tab_favoritos, container, false);
         boton2 = view.findViewById(R.id.boton2);
-        darkMode=view.findViewById(R.id.switch1);
-        main=new MainActivity();
         adaptadorListView=new AdaptadorListView();
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,34 +34,11 @@ public class TabFavoritos extends Fragment {
                 Toast.makeText(getActivity(), "Ha hecho clic en el boton del fragmento 1", Toast.LENGTH_SHORT).show();
             }
         });
-        darkMode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                main.guardarDatosOscuro(getContext(),darkMode);
-                if(darkMode.isChecked()){
-                    container.setBackgroundResource(R.color.modoOscuro);
 
-
-                }else{
-                    container.setBackgroundResource(R.color.Blanco);
-
-                }
-            }
-        });
 
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Toast.makeText(getContext(),"Hola",Toast.LENGTH_LONG).show();
-        if(main.CargarPreferencia(getContext())){
-            darkMode.setChecked(true);
-        }else{
-            darkMode.setChecked(false);
-        }
-    }
 
 }
 
