@@ -45,11 +45,15 @@ public class TabHistorial extends Fragment {
     public void onStart() {
         super.onStart();
         main=new MainActivity();
+        Toast.makeText(getContext(),"adios",Toast.LENGTH_LONG).show();
         if(!main.CargarPreferencia(getContext())){
             contaner.setBackgroundResource(R.color.Blanco);
+
         }else{
             contaner.setBackgroundResource(R.color.modoOscuro);
+
         }
     }
+
 }
 

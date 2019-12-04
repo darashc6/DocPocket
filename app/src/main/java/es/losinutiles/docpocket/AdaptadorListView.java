@@ -23,10 +23,15 @@ import java.io.IOError;
 public class AdaptadorListView extends BaseAdapter {
     private static LayoutInflater inflater=null;
     private DatabaseReference referencia;
+    private MainActivity main;
+    private TextView textoTituloVariable;
+    private TextView textoFechaHistorial;
     Context contexto;
     String [][] datos;
     int [] datosImg;
+    public AdaptadorListView(){
 
+    }
     public AdaptadorListView(Context contexto, String[][] datos, int[] datosImg) {
         this.contexto = contexto;
         this.datos = datos;
@@ -38,17 +43,24 @@ public class AdaptadorListView extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
 
         final View vista=inflater.inflate(R.layout.elemento_lista_historial,null);
-        TextView textoTituloVariable=(TextView)vista.findViewById(R.id.idTituloVariable);
-        TextView textoFechaHistorial=(TextView)vista.findViewById(R.id.idTextoHistorial);
+        main=new MainActivity();
+        textoTituloVariable=(TextView)vista.findViewById(R.id.idTituloVariable);
+        textoFechaHistorial=(TextView)vista.findViewById(R.id.idTextoHistorial);
         ImageView imagenFoto=(ImageView)vista.findViewById((R.id.idImagenFoto));
         ImageView imagenHistorial=(ImageView)vista.findViewById((R.id.idImagenHistorial));
         textoTituloVariable.setText(datos[i][0]);
         textoFechaHistorial.setText(datos[i][1]);
         imagenFoto.setImageResource(datosImg[i]);
         imagenHistorial.setImageResource(R.drawable.ic_today_black_24dp);
-
         imagenHistorial.setTag(i);
         imagenFoto.setTag(i);
+        if(main.CargarPreferencia(contexto)){
+            textoTituloVariable.setTextColor(contexto.getColor(R.color.Blanco));
+            textoFechaHistorial.setTextColor(contexto.getColor(R.color.Blanco));
+        }else{
+            textoTituloVariable.setTextColor(contexto.getColor(R.color.modoOscuro));
+            textoFechaHistorial.setTextColor(contexto.getColor(R.color.modoOscuro));
+        }
 
         imagenFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +72,6 @@ public class AdaptadorListView extends BaseAdapter {
 
             }
         });
-
 
         return vista;
     }
@@ -80,6 +91,5 @@ public class AdaptadorListView extends BaseAdapter {
     public long getItemId(int i) {
         return 0;
     }
-
 
 }

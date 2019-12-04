@@ -53,10 +53,13 @@ public class TabFavoritos extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Toast.makeText(getContext(),"Hola",Toast.LENGTH_LONG).show();
         if(main.CargarPreferencia(getContext())){
             darkMode.setChecked(true);
         }else{
             darkMode.setChecked(false);
         }
     }
+
 }
+
