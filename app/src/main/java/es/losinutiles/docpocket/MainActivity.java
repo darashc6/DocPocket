@@ -3,6 +3,7 @@ package es.losinutiles.docpocket;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -13,8 +14,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.BoringLayout;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager; // Despalzar los fragmentos deslizando hacia la izquierda o derecha
     private Toolbar toolbar; // Lo utilizaremos para mostrar las opciones (Los 3 puntitos) - TODO
     private FabSpeedDial opcionesCamara;
+    private TabLayout tb;
     private Boolean modoDark;
 
 
@@ -46,18 +50,16 @@ public class MainActivity extends AppCompatActivity {
         viewPager=findViewById(R.id.viewPager);
         toolbar=findViewById(R.id.toolbar);
         opcionesCamara=findViewById(R.id.opcionesCamara);
-        toolbar.setTitle("");
+        toolbar.setTitle("DOCKPOCKET V1.0");
         setSupportActionBar(toolbar);
         crearViewPager(viewPager);
-        TabLayout tb=findViewById(R.id.Tabs);
+         tb=findViewById(R.id.Tabs);
         tb.setupWithViewPager(viewPager); // Mete el viewPager creado dentro del TabLayout
         // Meter iconos del tab
         tb.getTabAt(0).setIcon(getDrawable(R.drawable.icono_lista));
         tb.getTabAt(1).setIcon(getDrawable(R.drawable.icono_favorito));
         tb.getTabAt(2).setIcon(getDrawable(R.drawable.icono_soporte));
-
         opcionesParaCamara();
-
     }
 
     /**
@@ -65,11 +67,9 @@ public class MainActivity extends AppCompatActivity {
      * @param vp el viewPager donde le queremos meter el adapter
      */
     public void crearViewPager(ViewPager vp) {
-        AdapterParaFragmentos adapter=new AdapterParaFragmentos(getSupportFragmentManager());
         adapter.nuevoFragmento(new TabHistorial());
         adapter.nuevoFragmento(new TabFavoritos());
         adapter.nuevoFragmento(new TabSoporte());
-
         vp.setAdapter(adapter);
     }
 
@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onMenuClosed() {
-
             }
         });
     }
@@ -116,5 +115,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void modoOscuro(MenuItem item) {
+        adapter.nuevoFragmento(new PantallaOpciones());
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(4);
+        tb.removeAllTabs();
+    }
 }
 

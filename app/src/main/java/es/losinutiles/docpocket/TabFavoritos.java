@@ -1,5 +1,6 @@
 package es.losinutiles.docpocket;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,14 +22,16 @@ import java.util.prefs.Preferences;
 public class TabFavoritos extends Fragment {
     private Button boton2;
     private Switch darkMode;
+    private AdaptadorListView adaptadorListView;
     private MainActivity main;
     @Nullable
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tab_favoritos, container, false);
+    public  View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_tab_favoritos, container, false);
         boton2 = view.findViewById(R.id.boton2);
         darkMode=view.findViewById(R.id.switch1);
         main=new MainActivity();
+        adaptadorListView=new AdaptadorListView();
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,8 +44,11 @@ public class TabFavoritos extends Fragment {
                 main.guardarDatosOscuro(getContext(),darkMode);
                 if(darkMode.isChecked()){
                     container.setBackgroundResource(R.color.modoOscuro);
+
+
                 }else{
                     container.setBackgroundResource(R.color.Blanco);
+
                 }
             }
         });

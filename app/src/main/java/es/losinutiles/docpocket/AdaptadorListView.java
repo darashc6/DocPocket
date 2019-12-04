@@ -42,7 +42,7 @@ public class AdaptadorListView extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        final View vista=inflater.inflate(R.layout.elemento_lista_historial,null);
+         View vista=inflater.inflate(R.layout.elemento_lista_historial,null);
         main=new MainActivity();
         textoTituloVariable=(TextView)vista.findViewById(R.id.idTituloVariable);
         textoFechaHistorial=(TextView)vista.findViewById(R.id.idTextoHistorial);
@@ -55,9 +55,11 @@ public class AdaptadorListView extends BaseAdapter {
         imagenHistorial.setTag(i);
         imagenFoto.setTag(i);
         if(main.CargarPreferencia(contexto)){
+            Toast.makeText(contexto,"Negro",Toast.LENGTH_LONG).show();
             textoTituloVariable.setTextColor(contexto.getColor(R.color.Blanco));
             textoFechaHistorial.setTextColor(contexto.getColor(R.color.Blanco));
         }else{
+            Toast.makeText(contexto,"Blanco",Toast.LENGTH_LONG).show();
             textoTituloVariable.setTextColor(contexto.getColor(R.color.modoOscuro));
             textoFechaHistorial.setTextColor(contexto.getColor(R.color.modoOscuro));
         }
@@ -92,4 +94,6 @@ public class AdaptadorListView extends BaseAdapter {
         return 0;
     }
 
+
 }
+
