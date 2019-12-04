@@ -38,18 +38,18 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.IOError;
 
 public class ActividadCamara extends AppCompatActivity {
-    private Bundle b;
-    private String[] permisosCamara;
-    private String[] palabras;
-    private String palabraElegida;
-    private Uri uri_imagen;
-    private LinearLayout datosEscaneados;
-    private ImageView imagenCamara;
-    private TextView textoEscaneado;
-    private TextView lenguajeElegido;
-    private static int camaraIDPermision=300;
-    private static int cogerImagenCamaraID=300;
-    private DatabaseReference referencia;
+    private Bundle bundle; // Bundle para devolver los datos de otra actividad
+    private String[] permisosCamara; // Permisos necesarios para la cámara
+    private String[] palabras; // Almacena las palabras escaneadas por texto. Los divide de 1 en 1 utilizando split
+    private String palabraElegida; // Palabra que se va a utlizar para buscar documentación sobre ella
+    private Uri uri_imagen; // Uri de la imagen
+    private LinearLayout datosEscaneados; // Layout donde se almacena todos los datos de lo escaneado (texto, lenguaje elegido)
+    private ImageView imagenCamara; // Imagen de la camara
+    private TextView textoEscaneado; // Texto escaneado a partir de la imagen de la cámara
+    private TextView lenguajeElegido; // Texto con el lenguaje que ha elegido el usuario
+    private static int camaraIDPermision=300; // Código para los permisos de la cámara
+    private static int cogerImagenCamaraID=300; // Código para los permisos de recortar el imagen
+    private DatabaseReference referencia; // Base de datos de referencia
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +65,8 @@ public class ActividadCamara extends AppCompatActivity {
         lenguajeElegido=findViewById(R.id.lenguajeElegido);
         datosEscaneados.setVisibility(View.INVISIBLE);
 
-        b=getIntent().getExtras();
-        lenguajeElegido.setText("Ha elegido el lenguaje "+b.getString("lenguajeElegido"));
+        bundle=getIntent().getExtras();
+        lenguajeElegido.setText("Ha elegido el lenguaje "+bundle.getString("lenguajeElegido"));
 
         activarCamara();
     }
@@ -92,9 +92,9 @@ public class ActividadCamara extends AppCompatActivity {
 
     /**
      * Funcion que realiza una función u otra dependiendo de las permisiones dadas por el usuario
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+     * @param requestCode Código del permiso que solicitamos
+     * @param permissions Permisos que solicitamos
+     * @param grantResults Resultado del diálogo de los permisos
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -143,9 +143,9 @@ public class ActividadCamara extends AppCompatActivity {
 
     /**
      * Devuelve el resultado del intent
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode Código del permiso que hemos solicitado
+     * @param resultCode Código del resultado de la actividad
+     * @param data No nos hace falta para este caso
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -190,43 +190,43 @@ public class ActividadCamara extends AppCompatActivity {
                     }
 
                     textoEscaneado.setText(texto.toString());
-                    palabras=textoEscaneado.getText().toString().split(" ");
+                    palabras=textoEscaneado.getText().toString().toLowerCase().split(" ");
                     try{
-            referencia= FirebaseDatabase.getInstance().getReference();
-            referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                        referencia= FirebaseDatabase.getInstance().getReference();
+                        referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    if(dataSnapshot.exists()){
-                        //Implementado las consultas.
-                        //Hay que rellenar la base de datos con las clases y su respectivo valor en minuscula
-                        //Quitar filewriter del child y sustituirlo por el string que surge de la camara.
-                        //Itero sobre array para sacar cada palabra y buscarla en firebase
+                                if(dataSnapshot.exists()){
+                                    //Implementado las consultas.
+                                    //Hay que rellenar la base de datos con las clases y su respectivo valor en minuscula
+                                    //Quitar filewriter del child y sustituirlo por el string que surge de la camara.
+                                    //Itero sobre array para sacar cada palabra y buscarla en firebase
 
-                        for(int i=0;i<palabras.length;i++){
-                            Log.d("Datos","Esto es el length de palabras dentro de la funcion \n"+palabras.length+
-                                    "ahora voy a buscar la palabra "+palabras[i]);
+                                    for(int i=0;i<palabras.length;i++){
+                                        Log.d("Datos","Esto es el length de palabras dentro de la funcion \n"+palabras.length+
+                                                "ahora voy a buscar la palabra "+palabras[i]);
 
-                            String probar=dataSnapshot.child(palabras[i]).getValue().toString();
-                            Toast.makeText(getApplicationContext(), probar+"", Toast.LENGTH_LONG).show();
-                            Log.d("Datos: ",""+probar.toUpperCase());
-                           //Creo variable string palabraElegida que servirá como palabra clave para las busquedas en las paginas
-                            palabraElegida=probar;
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "No se ha encontrado una clase correcta", Toast.LENGTH_LONG).show();
+                                        String probar=dataSnapshot.child(palabras[i]).getValue().toString();
+                                        Toast.makeText(getApplicationContext(), probar+"", Toast.LENGTH_LONG).show();
+                                        Log.d("Datos: ",""+probar.toUpperCase());
+                                       //Creo variable string palabraElegida que servirá como palabra clave para las busquedas en las paginas
+                                        palabraElegida=probar;
+                                    }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "No se ha encontrado una clase correcta", Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    } catch(IOError error) {
+                        error.getMessage();
                     }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }catch(IOError error){
-            error.getMessage();
-        }
 
                 }
                 datosEscaneados.setVisibility(View.VISIBLE);
@@ -235,13 +235,14 @@ public class ActividadCamara extends AppCompatActivity {
                 finish();
                 Bundle bundleParaReiniciarActividad=new Bundle();
                 Intent reiniciarActividad=new Intent(this, ActividadCamara.class);
-                bundleParaReiniciarActividad.putString("lenguajeElegido", b.getString("lenguajeElegido"));
+                bundleParaReiniciarActividad.putString("lenguajeElegido", bundle.getString("lenguajeElegido"));
                 reiniciarActividad.putExtras(bundleParaReiniciarActividad);
                 startActivity(reiniciarActividad);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 
     public void buscarStackOverFlow(View view) {
         Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://stackoverflow.com/search?q="+palabraElegida));
@@ -252,11 +253,9 @@ public class ActividadCamara extends AppCompatActivity {
         }
     }
 
-
-
     public void buscarYoutube(View view) {
-        Intent appIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/results?search query="+palabraElegida));
-        Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/results?search query="+palabraElegida));
+        Intent appIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/results?search_query="+palabraElegida));
+        Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/results?search_query="+palabraElegida));
         try{
             startActivity(appIntent);
         }catch (ActivityNotFoundException ex){

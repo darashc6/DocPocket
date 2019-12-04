@@ -73,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
         vp.setAdapter(adapter);
     }
 
+    /**
+     * Función que mete las opciones del lenguaje en el icono del FAB
+     * Pasará por bundle el lenguaje que se ha elegido, para luego meter al listview del lenguaje que pertenezca
+     */
     public void opcionesParaCamara() {
         opcionesCamara.setMenuListener(new FabSpeedDial.MenuListener() {
             @Override
@@ -95,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
     public void guardarDatosOscuro(Context context,Switch oscuro){
         if(oscuro.isChecked()){
             SharedPreferences preferences=context.getSharedPreferences("modoOscuro", Context.MODE_PRIVATE);
@@ -108,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
             editor.commit();
         }
     }
+
+
     public Boolean CargarPreferencia(Context context){
         SharedPreferences preferences=context.getSharedPreferences("modoOscuro", Context.MODE_PRIVATE);
         return preferences.getBoolean("idOscuro",false);
