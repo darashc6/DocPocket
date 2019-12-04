@@ -17,10 +17,10 @@
         android:id="@+id/textoEscaneado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="15sp"
         android:layout_marginTop="30dp"
-        android:textAlignment="center"/>
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/lenguajeElegido"
@@ -30,4 +30,35 @@
         android:textSize="15sp"
         android:layout_marginTop="30dp"
         android:textAlignment="center"/>
+
+    <Button
+        android:id="@+id/buttonStackOverFlow"
+        android:layout_width="224dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="107dp"
+        android:onClick="buscarStackOverFlow"
+        android:text="Buscar en StackOverFlow" />
+
+    <Button
+        android:id="@+id/buttonGoogle"
+        android:layout_width="164dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="144dp"
+        android:onClick="buscarGoogle"
+        android:text="Buscar en Google"/>
+
+    <Button
+        android:id="@+id/buttonYoutube"
+        android:layout_width="167dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="111dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="136dp"
+        android:onClick="buscarYoutube"
+        android:text="Buscar en youtube"/>
+
 </LinearLayout>

@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,12 +27,21 @@ import android.widget.Toast;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.io.IOError;
 
 public class ActividadCamara extends AppCompatActivity {
     private Bundle b;
     private String[] permisosCamara;
+    private String[] palabras;
+    private String palabraElegida;
     private Uri uri_imagen;
     private LinearLayout datosEscaneados;
     private ImageView imagenCamara;
@@ -38,6 +49,7 @@ public class ActividadCamara extends AppCompatActivity {
     private TextView lenguajeElegido;
     private static int camaraIDPermision=300;
     private static int cogerImagenCamaraID=300;
+    private DatabaseReference referencia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +58,7 @@ public class ActividadCamara extends AppCompatActivity {
 
         permisosCamara=new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         uri_imagen=null;
+        palabras=null;
         datosEscaneados=findViewById(R.id.datosEscaneado);
         imagenCamara=findViewById(R.id.imagenCamara);
         textoEscaneado=findViewById(R.id.textoEscaneado);
@@ -166,14 +179,55 @@ public class ActividadCamara extends AppCompatActivity {
                 } else {
                     Frame frameCropeado = new Frame.Builder().setBitmap(bm).build();
                     SparseArray<TextBlock>  items = textRecognizer.detect(frameCropeado);
-                    StringBuilder texto=new StringBuilder();
+                    final StringBuilder texto=new StringBuilder();
                     // Vamos a conseguir texto hasta que el frame no tenga texto
+
                     for (int i=0; i<items.size(); i++) {
                         TextBlock item=items.valueAt(i);
                         texto.append(item.getValue());
-                        texto.append("\n");
+                        //Creo un array de String en el que se guardan las palabras de la cadena de texto
+                        //por separadas para poder realizar la consulta en firebase
                     }
+
                     textoEscaneado.setText(texto.toString());
+                    palabras=textoEscaneado.getText().toString().split(" ");
+                    try{
+            referencia= FirebaseDatabase.getInstance().getReference();
+            referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if(dataSnapshot.exists()){
+                        //Implementado las consultas.
+                        //Hay que rellenar la base de datos con las clases y su respectivo valor en minuscula
+                        //Quitar filewriter del child y sustituirlo por el string que surge de la camara.
+                        //Itero sobre array para sacar cada palabra y buscarla en firebase
+
+                        for(int i=0;i<palabras.length;i++){
+                            Log.d("Datos","Esto es el length de palabras dentro de la funcion \n"+palabras.length+
+                                    "ahora voy a buscar la palabra "+palabras[i]);
+
+                            String probar=dataSnapshot.child(palabras[i]).getValue().toString();
+                            Toast.makeText(getApplicationContext(), probar+"", Toast.LENGTH_LONG).show();
+                            Log.d("Datos: ",""+probar.toUpperCase());
+                           //Creo variable string palabraElegida que servirá como palabra clave para las busquedas en las paginas
+                            palabraElegida=probar;
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No se ha encontrado una clase correcta", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }catch(IOError error){
+            error.getMessage();
+        }
+
                 }
                 datosEscaneados.setVisibility(View.VISIBLE);
             } else {
@@ -187,5 +241,35 @@ public class ActividadCamara extends AppCompatActivity {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void buscarStackOverFlow(View view) {
+        Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://stackoverflow.com/search?q="+palabraElegida));
+        try{
+            startActivity(webIntent);
+        }catch (ActivityNotFoundException ex){
+            Toast.makeText(this,"Ha ocurrido un error, intentalo de nuevo",Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+
+    public void buscarYoutube(View view) {
+        Intent appIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/results?search query="+palabraElegida));
+        Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/results?search query="+palabraElegida));
+        try{
+            startActivity(appIntent);
+        }catch (ActivityNotFoundException ex){
+            startActivity(webIntent);
+        }
+    }
+
+    public void buscarGoogle(View view) {
+        Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.google.com/search?q="+palabraElegida));
+        try{
+            startActivity(webIntent);
+        }catch (ActivityNotFoundException ex){
+            Toast.makeText(this,"Ha ocurrido un error, intentalo de nuevo",Toast.LENGTH_LONG).show();
+        }
     }
 }
