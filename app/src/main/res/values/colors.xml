@@ -6,4 +6,5 @@
     <color name="colorIndicadorTab">#3333ff</color>
     <color name="modoOscuro">#252850</color>
     <color name="Blanco">#ffffff</color>
+    <color name="Rojo">#ff0000</color>
 </resources>

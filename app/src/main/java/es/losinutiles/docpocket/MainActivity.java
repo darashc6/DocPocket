@@ -16,8 +16,10 @@ import android.text.BoringLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -130,10 +132,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void modoOscuro(MenuItem item) {
-        adapter.nuevoFragmento(new PantallaOpciones());
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(4);
-        tb.removeAllTabs();
+    Intent intent=new Intent(getBaseContext(),PantallaOpciones.class);
+    startActivity(intent);
     }
+
 }
 

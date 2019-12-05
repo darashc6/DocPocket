@@ -1,70 +1,71 @@
 package es.losinutiles.docpocket;
 
-import android.content.Context;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- */
-public class PantallaOpciones extends Fragment {
-private Button boton;
-private MainActivity main;
-private Switch modOscuro;
+public class PantallaOpciones extends AppCompatActivity {
+    private Switch aSwitch;
+    private ConstraintLayout layout;
+    private RadioButton java;
+    private RadioButton cshar;
+    private MainActivity main;
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_pantalla_opciones, container, false);
-        boton=view.findViewById(R.id.button2);
-        modOscuro=view.findViewById(R.id.switch3);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pantalla_opciones);
+        aSwitch=findViewById(R.id.switch1);
+        java=findViewById(R.id.radioButton);
+        cshar=findViewById(R.id.radioButton2);
+        layout=findViewById(R.id.fondo);
         main=new MainActivity();
-        boton.setOnClickListener(new View.OnClickListener() {
+        aSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    this.finalize();
-                    Intent intet=new Intent(getContext(),MainActivity.class);
-                    startActivity(intet);
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }
-        });
-        modOscuro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                main.guardarDatosOscuro(getContext(),modOscuro);
-                if(modOscuro.isChecked()){
-                    container.setBackgroundResource(R.color.modoOscuro);
-
+                if(aSwitch.isChecked()){
+                    main.guardarDatosOscuro(getBaseContext(),aSwitch);
+                    aSwitch.setTextColor(getColor(R.color.Blanco));
+                    layout.setBackgroundResource(R.color.modoOscuro);
+                    java.setTextColor(getColor(R.color.Blanco));
+                    cshar.setTextColor(getColor(R.color.Blanco));
                 }else{
-                    container.setBackgroundResource(R.color.Blanco);
+                    main.guardarDatosOscuro(getBaseContext(),aSwitch);
+                    layout.setBackgroundResource(R.color.Blanco);
+                    aSwitch.setTextColor(getColor(R.color.modoOscuro));
+                    java.setTextColor(getColor(R.color.modoOscuro));
+                    cshar.setTextColor(getColor(R.color.modoOscuro));
                 }
             }
         });
-        return view;
+    }
+
+
+    public void guardarAjustes(View view) {
+        Intent intent=new Intent(getBaseContext(),MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
-        Toast.makeText(getContext(),"Hola",Toast.LENGTH_LONG).show();
-        if(main.CargarPreferencia(getContext())){
-            modOscuro.setChecked(true);
+        if(main.CargarPreferencia(getBaseContext())){
+            aSwitch.setChecked(true);
+            aSwitch.setTextColor(getColor(R.color.Blanco));
+            layout.setBackgroundResource(R.color.modoOscuro);
+            java.setTextColor(getColor(R.color.Blanco));
+            cshar.setTextColor(getColor(R.color.Blanco));
         }else{
-            modOscuro.setChecked(false);
+            aSwitch.setChecked(false);
+            aSwitch.setTextColor(getColor(R.color.modoOscuro));
+            layout.setBackgroundResource(R.color.Blanco);
+            java.setTextColor(getColor(R.color.modoOscuro));
+            cshar.setTextColor(getColor(R.color.modoOscuro));
         }
     }
 }
