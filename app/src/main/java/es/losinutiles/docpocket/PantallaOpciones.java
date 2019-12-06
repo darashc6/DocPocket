@@ -71,10 +71,14 @@ public class PantallaOpciones extends AppCompatActivity {
 
     public void selecLenguaje(View view) {
         cshar.setChecked(false);
+        Toast.makeText(getBaseContext(),main.guardarLenguajeDefecto(getBaseContext(),"Java"),Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(),main.CargarLenguaje(getBaseContext()),Toast.LENGTH_LONG).show();
     }
 
     public void selecLenguaje2(View view) {
         java.setChecked(false);
+        Toast.makeText(getBaseContext(),main.guardarLenguajeDefecto(getBaseContext(),"C#"),Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(),main.CargarLenguaje(getBaseContext()),Toast.LENGTH_LONG).show();
     }
 
     @Override

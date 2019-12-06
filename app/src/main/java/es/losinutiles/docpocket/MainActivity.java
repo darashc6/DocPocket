@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -125,6 +126,25 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("idOscuro",false);
             editor.commit();
         }
+    }
+    public String guardarLenguajeDefecto(Context context, String lenguaje){
+        if(lenguaje=="Java"){
+            SharedPreferences preferences=context.getSharedPreferences("lenguaje", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.putString("idLenguaje",lenguaje);
+            editor.commit();
+        }else{
+            SharedPreferences preferences=context.getSharedPreferences("lenguaje", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.putString("idLenguaje",lenguaje);
+            editor.commit();
+        }
+        return lenguaje;
+    }
+    public String CargarLenguaje(Context context){
+        SharedPreferences preferences=context.getSharedPreferences("lenguaje", Context.MODE_PRIVATE);
+        return preferences.getString("idLenguaje","Todos");
+
     }
 
 

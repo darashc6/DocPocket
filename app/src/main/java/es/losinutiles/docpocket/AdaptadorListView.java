@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOError;
+import java.util.ArrayList;
 
 public class AdaptadorListView extends BaseAdapter {
     private static LayoutInflater inflater=null;
@@ -29,12 +30,12 @@ public class AdaptadorListView extends BaseAdapter {
     private TextView lenguaje;
     private TextView datolenguaje;
     Context contexto;
-    String [][] datos;
+    ArrayList<String[]>datos;
     int [] datosImg;
     public AdaptadorListView(){
 
     }
-    public AdaptadorListView(Context contexto, String[][] datos, int[] datosImg) {
+    public AdaptadorListView(Context contexto, ArrayList<String[]>datos, int[] datosImg) {
         this.contexto = contexto;
         this.datos = datos;
         this.datosImg = datosImg;
@@ -43,7 +44,6 @@ public class AdaptadorListView extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-
          View vista=inflater.inflate(R.layout.elemento_lista_historial,null);
         main=new MainActivity();
         textoTituloVariable=(TextView)vista.findViewById(R.id.idTituloVariable);
@@ -52,12 +52,14 @@ public class AdaptadorListView extends BaseAdapter {
         datolenguaje=vista.findViewById(R.id.textView6);
         ImageView imagenFoto=(ImageView)vista.findViewById((R.id.idImagenFoto));
         ImageView imagenHistorial=(ImageView)vista.findViewById((R.id.idImagenHistorial));
-        textoTituloVariable.setText(datos[i][0]);
-        textoFechaHistorial.setText(datos[i][1]);
+        textoTituloVariable.setText(datos.get(i)[0]);
+        textoFechaHistorial.setText(datos.get(i)[1]);
+        datolenguaje.setText(datos.get(i)[2]);
         imagenFoto.setImageResource(datosImg[i]);
         imagenHistorial.setImageResource(R.drawable.ic_today_black_24dp);
         imagenHistorial.setTag(i);
         imagenFoto.setTag(i);
+
         if(main.CargarPreferencia(contexto)){
             textoTituloVariable.setTextColor(contexto.getColor(R.color.Blanco));
             textoFechaHistorial.setTextColor(contexto.getColor(R.color.Blanco));
@@ -87,7 +89,7 @@ public class AdaptadorListView extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return datosImg.length;
+        return datos.size();
     }
 
     @Override
