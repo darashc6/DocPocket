@@ -68,4 +68,17 @@ public class PantallaOpciones extends AppCompatActivity {
             cshar.setTextColor(getColor(R.color.modoOscuro));
         }
     }
+
+    public void selecLenguaje(View view) {
+        cshar.setChecked(false);
+    }
+
+    public void selecLenguaje2(View view) {
+        java.setChecked(false);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

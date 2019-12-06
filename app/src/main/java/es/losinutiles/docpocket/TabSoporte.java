@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +16,11 @@ import androidx.fragment.app.Fragment;
 public class TabSoporte extends Fragment {
     private Button botonEnviarMensaje; // Botón para enviar el mensaje
     private EditText nombreEscrito; // Nombre que ha escrito el usuario
+    private MainActivity main;
     private EditText emailEscrito; // Email que ha escrito es usuario
+    private TextView nombre;
+    private TextView email;
+    private TextView problema;
     private EditText mensajeEscrito; // Mensaje que ha escrito el usuario
 
     @Nullable
@@ -23,6 +28,9 @@ public class TabSoporte extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_soporte, container, false);
         botonEnviarMensaje = view.findViewById(R.id.botonEnviarMensaje);
+        nombre=view.findViewById(R.id.textView);
+        email=view.findViewById(R.id.textView2);
+        problema=view.findViewById(R.id.textView3);
         nombreEscrito=view.findViewById(R.id.textoNombre);
         emailEscrito=view.findViewById(R.id.textoEmail);
         mensajeEscrito=view.findViewById(R.id.textoMensaje);
@@ -42,5 +50,34 @@ public class TabSoporte extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        main=new MainActivity();
+        if(main.CargarPreferencia(getContext())){
+            botonEnviarMensaje.setBackgroundResource(R.color.Rojo);
+            nombreEscrito.setTextColor(getContext().getColor(R.color.Blanco));
+            emailEscrito.setBackgroundTintList(getContext().getColorStateList(R.color.Blanco));
+            mensajeEscrito.setBackgroundTintList(getContext().getColorStateList(R.color.Blanco));
+            nombreEscrito.setBackgroundTintList(getContext().getColorStateList(R.color.Blanco));
+            emailEscrito.setTextColor(getContext().getColor(R.color.Blanco));
+            mensajeEscrito.setTextColor(getContext().getColor(R.color.Blanco));
+            nombre.setTextColor(getContext().getColor(R.color.Blanco));
+            email.setTextColor(getContext().getColor(R.color.Blanco));
+            problema.setTextColor(getContext().getColor(R.color.Blanco));
+        }else{
+            botonEnviarMensaje.setBackgroundResource(R.color.Blanco);
+            nombreEscrito.setTextColor(getContext().getColor(R.color.modoOscuro));
+            emailEscrito.setTextColor(getContext().getColor(R.color.modoOscuro));
+            mensajeEscrito.setTextColor(getContext().getColor(R.color.modoOscuro));
+            nombre.setTextColor(getContext().getColor(R.color.modoOscuro));
+            email.setTextColor(getContext().getColor(R.color.modoOscuro));
+            problema.setTextColor(getContext().getColor(R.color.modoOscuro));
+            emailEscrito.setBackgroundTintList(getContext().getColorStateList(R.color.modoOscuro));
+            mensajeEscrito.setBackgroundTintList(getContext().getColorStateList(R.color.modoOscuro));
+            nombreEscrito.setBackgroundTintList(getContext().getColorStateList(R.color.modoOscuro));
+        }
     }
 }

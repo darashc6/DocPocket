@@ -102,6 +102,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void modoOscuro(MenuItem item) {
+    Intent intent=new Intent(getBaseContext(),PantallaOpciones.class);
+    startActivity(intent);
+    }
 
     public void guardarDatosOscuro(Context context,Switch oscuro){
         if(oscuro.isChecked()){
@@ -123,17 +133,6 @@ public class MainActivity extends AppCompatActivity {
         return preferences.getBoolean("idOscuro",false);
 
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public void modoOscuro(MenuItem item) {
-    Intent intent=new Intent(getBaseContext(),PantallaOpciones.class);
-    startActivity(intent);
     }
 
 }

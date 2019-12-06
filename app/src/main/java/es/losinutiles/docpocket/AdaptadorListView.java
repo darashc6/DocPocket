@@ -26,6 +26,8 @@ public class AdaptadorListView extends BaseAdapter {
     private MainActivity main;
     private TextView textoTituloVariable;
     private TextView textoFechaHistorial;
+    private TextView lenguaje;
+    private TextView datolenguaje;
     Context contexto;
     String [][] datos;
     int [] datosImg;
@@ -46,6 +48,8 @@ public class AdaptadorListView extends BaseAdapter {
         main=new MainActivity();
         textoTituloVariable=(TextView)vista.findViewById(R.id.idTituloVariable);
         textoFechaHistorial=(TextView)vista.findViewById(R.id.idTextoHistorial);
+        lenguaje=vista.findViewById(R.id.textView5);
+        datolenguaje=vista.findViewById(R.id.textView6);
         ImageView imagenFoto=(ImageView)vista.findViewById((R.id.idImagenFoto));
         ImageView imagenHistorial=(ImageView)vista.findViewById((R.id.idImagenHistorial));
         textoTituloVariable.setText(datos[i][0]);
@@ -55,13 +59,15 @@ public class AdaptadorListView extends BaseAdapter {
         imagenHistorial.setTag(i);
         imagenFoto.setTag(i);
         if(main.CargarPreferencia(contexto)){
-            Toast.makeText(contexto,"Negro",Toast.LENGTH_LONG).show();
             textoTituloVariable.setTextColor(contexto.getColor(R.color.Blanco));
             textoFechaHistorial.setTextColor(contexto.getColor(R.color.Blanco));
+            lenguaje.setTextColor(contexto.getColor(R.color.Blanco));
+            datolenguaje.setTextColor(contexto.getColor(R.color.Blanco));
         }else{
-            Toast.makeText(contexto,"Blanco",Toast.LENGTH_LONG).show();
             textoTituloVariable.setTextColor(contexto.getColor(R.color.modoOscuro));
             textoFechaHistorial.setTextColor(contexto.getColor(R.color.modoOscuro));
+            lenguaje.setTextColor(contexto.getColor(R.color.modoOscuro));
+            datolenguaje.setTextColor(contexto.getColor(R.color.modoOscuro));
         }
 
         imagenFoto.setOnClickListener(new View.OnClickListener() {
