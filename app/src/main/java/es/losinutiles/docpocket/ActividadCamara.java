@@ -36,12 +36,13 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOError;
+import java.util.ArrayList;
 
 public class ActividadCamara extends AppCompatActivity {
     private Bundle bundle; // Bundle para devolver los datos de otra actividad
     private String[] permisosCamara; // Permisos necesarios para la cámara
     private String[] palabras; // Almacena las palabras escaneadas por texto. Los divide de 1 en 1 utilizando split
-    private String palabraElegida; // Palabra que se va a utlizar para buscar documentación sobre ella
+    private ArrayList<String> palabrasEscaneadas; // Palabra que se va a utlizar para buscar documentación sobre ella
     private Uri uri_imagen; // Uri de la imagen
     private LinearLayout datosEscaneados; // Layout donde se almacena todos los datos de lo escaneado (texto, lenguaje elegido)
     private ImageView imagenCamara; // Imagen de la camara
@@ -59,6 +60,7 @@ public class ActividadCamara extends AppCompatActivity {
         permisosCamara=new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         uri_imagen=null;
         palabras=null;
+        palabrasEscaneadas=new ArrayList<String>();
         datosEscaneados=findViewById(R.id.datosEscaneado);
         imagenCamara=findViewById(R.id.imagenCamara);
         textoEscaneado=findViewById(R.id.textoEscaneado);
@@ -172,10 +174,10 @@ public class ActividadCamara extends AppCompatActivity {
                 Bitmap bm = bmd.getBitmap();
 
                 // Creamos el reconocedor de texto
-                TextRecognizer textRecognizer = new  TextRecognizer.Builder(getApplicationContext()).build();
+                TextRecognizer textRecognizer = new TextRecognizer.Builder(this).build();
 
                 if (!textRecognizer.isOperational()) { // Comprueba si el detector está en funcionamiento
-                    Toast.makeText(this, "textRecoginzer no disponible", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "textRecoginzer no disponible", Toast.LENGTH_SHORT).show();
                 } else {
                     Frame frameCropeado = new Frame.Builder().setBitmap(bm).build();
                     SparseArray<TextBlock>  items = textRecognizer.detect(frameCropeado);
@@ -185,12 +187,12 @@ public class ActividadCamara extends AppCompatActivity {
                     for (int i=0; i<items.size(); i++) {
                         TextBlock item=items.valueAt(i);
                         texto.append(item.getValue());
+                        texto.append(" \n");
                         //Creo un array de String en el que se guardan las palabras de la cadena de texto
                         //por separadas para poder realizar la consulta en firebase
                     }
-
-                    textoEscaneado.setText(texto.toString());
-                    palabras=textoEscaneado.getText().toString().toLowerCase().split(" ");
+                    textoEscaneado.setText(texto);
+                    palabras=texto.toString().toLowerCase().split(" ");
                     try{
                         referencia= FirebaseDatabase.getInstance().getReference();
                         referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
@@ -207,11 +209,21 @@ public class ActividadCamara extends AppCompatActivity {
                                         Log.d("Datos","Esto es el length de palabras dentro de la funcion \n"+palabras.length+
                                                 "ahora voy a buscar la palabra "+palabras[i]);
 
-                                        String probar=dataSnapshot.child(palabras[i]).getValue().toString();
-                                        Toast.makeText(getApplicationContext(), probar+"", Toast.LENGTH_LONG).show();
-                                        Log.d("Datos: ",""+probar.toUpperCase());
-                                       //Creo variable string palabraElegida que servirá como palabra clave para las busquedas en las paginas
-                                        palabraElegida=probar;
+                                        DataSnapshot probar=dataSnapshot.child(palabras[i]);
+                                        Toast.makeText(getApplicationContext(), probar.toString()+"", Toast.LENGTH_LONG).show();
+                                        // Log.d("Datos: ",""+probar.toUpperCase());
+                                        //Creo variable string palabraElegida que servirá como palabra clave para las busquedas en las paginas
+                                        if (probar.getValue()!=null) {
+                                            palabrasEscaneadas.add(probar.getValue().toString());
+                                        }
+                                    }
+
+                                    Toast.makeText(getApplicationContext(), "Palabras encontradas: "+palabrasEscaneadas.size(), Toast.LENGTH_LONG).show();
+                                    if (palabrasEscaneadas.size()>0) {
+                                        for (String s:palabrasEscaneadas) {
+                                            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                            textoEscaneado.setText(textoEscaneado.getText()+s);
+                                        }
                                     }
                                 } else {
                                     Toast.makeText(getApplicationContext(), "No se ha encontrado una clase correcta", Toast.LENGTH_LONG).show();
@@ -245,7 +257,7 @@ public class ActividadCamara extends AppCompatActivity {
 
 
     public void buscarStackOverFlow(View view) {
-        Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://stackoverflow.com/search?q="+palabraElegida));
+        Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://stackoverflow.com/search?q="+palabrasEscaneadas.get(0)));
         try{
             startActivity(webIntent);
         }catch (ActivityNotFoundException ex){
@@ -254,8 +266,8 @@ public class ActividadCamara extends AppCompatActivity {
     }
 
     public void buscarYoutube(View view) {
-        Intent appIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/results?search_query="+palabraElegida));
-        Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/results?search_query="+palabraElegida));
+        Intent appIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/results?search_query="+palabrasEscaneadas));
+        Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/results?search_query="+palabrasEscaneadas));
         try{
             startActivity(appIntent);
         }catch (ActivityNotFoundException ex){
@@ -264,7 +276,7 @@ public class ActividadCamara extends AppCompatActivity {
     }
 
     public void buscarGoogle(View view) {
-        Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.google.com/search?q="+palabraElegida));
+        Intent webIntent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.google.com/search?q="+palabrasEscaneadas.get(0)));
         try{
             startActivity(webIntent);
         }catch (ActivityNotFoundException ex){
