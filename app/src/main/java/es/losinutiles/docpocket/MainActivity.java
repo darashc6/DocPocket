@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private FabSpeedDial opcionesCamara;
     private TabLayout tb;
     private Boolean modoDark;
+    private FirebaseAuth uFirebase;
+    private FirebaseUser usuarioGoogle;
 
 
     @Override
@@ -63,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
         tb.getTabAt(1).setIcon(getDrawable(R.drawable.icono_favorito));
         tb.getTabAt(2).setIcon(getDrawable(R.drawable.icono_soporte));
         opcionesParaCamara();
+        uFirebase=FirebaseAuth.getInstance();
+        usuarioGoogle=uFirebase.getCurrentUser();
+        Toast.makeText(this, "Iniciado sesión como: "+ usuarioGoogle.getEmail(), Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -155,5 +162,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+        super.onBackPressed();
+    }
 }
 
