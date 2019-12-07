@@ -2,9 +2,12 @@
 <resources>
     <color name="colorPrimary">#8080ff</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#220042</color>
     <color name="colorIndicadorTab">#3333ff</color>
     <color name="modoOscuro">#220042</color>
     <color name="Blanco">#ffffff</color>
+    <color name="negro">#000000</color>
     <color name="Rojo">#ff0000</color>
+    <color name="colorBotonPresionado">#d5d2d2</color>
+    <color name="colorTransparente">#00ffffff</color>
 </resources>

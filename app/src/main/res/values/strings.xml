@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">DocPocket</string>
-    <string name="nombreUsuario"></string>
     <string name="lenguajeJava">Java</string>
     <string name="lenguajeCSharp">C#</string>
     <string name="title_activity_tab_opciones">TabOpciones</string>
@@ -10,6 +9,8 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="email">Email:</string>
+    <string name="tituloMensaje">Describenos tu problema:</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
@@ -17,6 +18,16 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="guardarAjustes">Guardar Ajustes</string>
+    <string name="lenguajeDefecto">Lenguaje por defecto</string>
+    <string name="modoOscuro">Modo oscuro</string>
+    <string name="textoInicioSesion">Iniciar sesión con Google</string>
+    <string name="mensajeDialogo">¿Estás seguro de que quieres cerrar sesión?</string>
+    <string name="tituloDialogo">Cerrar sesión</string>
+    <string name="botonPositivoDoalogo">Si</string>
+    <string name="botonNegativoDialogo">No</string>
+    <string name="textoCerrarSesion">Cerrar Sesión con Google</string>
+    <string name="textoSesionCerrada">Se ha cerrado la sesión</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

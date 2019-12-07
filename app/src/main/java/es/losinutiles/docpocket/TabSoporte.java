@@ -13,15 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class TabSoporte extends Fragment {
     private Button botonEnviarMensaje; // Botón para enviar el mensaje
     private EditText nombreEscrito; // Nombre que ha escrito el usuario
-    private MainActivity main;
+    private MainActivity main; // Actividad Principal
     private EditText emailEscrito; // Email que ha escrito es usuario
     private TextView nombre;
     private TextView email;
     private TextView problema;
     private EditText mensajeEscrito; // Mensaje que ha escrito el usuario
+    private FirebaseAuth mFirebase;
 
     @Nullable
     @Override
@@ -34,7 +37,7 @@ public class TabSoporte extends Fragment {
         nombreEscrito=view.findViewById(R.id.textoNombre);
         emailEscrito=view.findViewById(R.id.textoEmail);
         mensajeEscrito=view.findViewById(R.id.textoMensaje);
-
+        mFirebase=FirebaseAuth.getInstance();
         // Aquí se hace un onclick listener para enviar el formulario escrito por el usuario
         botonEnviarMensaje.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +51,11 @@ public class TabSoporte extends Fragment {
                 }
             }
         });
+
+        if (mFirebase.getCurrentUser()!=null) {
+            emailEscrito.setText(mFirebase.getCurrentUser().getEmail());
+        }
+
 
         return view;
     }
