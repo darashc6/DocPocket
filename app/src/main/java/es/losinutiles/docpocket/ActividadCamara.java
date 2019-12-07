@@ -36,6 +36,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOError;
+import java.sql.SQLDataException;
 import java.util.ArrayList;
 
 public class ActividadCamara extends AppCompatActivity {
@@ -72,6 +73,7 @@ public class ActividadCamara extends AppCompatActivity {
         lenguajeElegido.setText("Ha elegido el lenguaje "+bundle.getString("lenguajeElegido"));
         if(bundle.getString("lenguajeElegido").equals("Java")){
             documentacion="DocumentacionJava";
+
         }else{
             documentacion="DocumentacionCSharp";
         }
@@ -224,15 +226,19 @@ public class ActividadCamara extends AppCompatActivity {
                                     }
 
                                     Toast.makeText(getApplicationContext(), "Palabras encontradas: "+palabrasEscaneadas.size(), Toast.LENGTH_LONG).show();
-                                    if (palabrasEscaneadas.size()>0) {
-                                        for (String s:palabrasEscaneadas) {
-                                            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                                            textoEscaneado.setText(textoEscaneado.getText()+s);
-                                        }
-                                    }
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "No se ha encontrado una clase correcta", Toast.LENGTH_LONG).show();
-                                }
+                                   try{
+                                       if (palabrasEscaneadas.size()>0) {
+                                           for (String s:palabrasEscaneadas) {
+                                               Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                               textoEscaneado.setText(textoEscaneado.getText()+s);
+                                           }
+                                       }
+                                    }catch(Exception ex){
+                                       Toast.makeText(getApplicationContext(), "No se ha encontrado una clase correcta", Toast.LENGTH_LONG).show();
+                                    Intent intent=new Intent(getApplicationContext(), TabHistorial.class);
+                                    startActivity(intent);
+                                   }
+                                   }
                             }
 
                             @Override

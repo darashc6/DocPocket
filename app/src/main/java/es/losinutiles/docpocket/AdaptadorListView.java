@@ -2,23 +2,15 @@ package es.losinutiles.docpocket;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOError;
 import java.util.ArrayList;
 
 public class AdaptadorListView extends BaseAdapter {
@@ -51,7 +43,7 @@ public class AdaptadorListView extends BaseAdapter {
         lenguaje=vista.findViewById(R.id.textView5);
         datolenguaje=vista.findViewById(R.id.textView6);
         ImageView imagenFoto=(ImageView)vista.findViewById((R.id.idImagenFoto));
-        ImageView imagenHistorial=(ImageView)vista.findViewById((R.id.idImagenHistorial));
+        ImageView imagenHistorial=(ImageView)vista.findViewById((R.id.idDiasConsulta));
         textoTituloVariable.setText(datos.get(i)[0]);
         textoFechaHistorial.setText(datos.get(i)[1]);
         datolenguaje.setText(datos.get(i)[2]);
