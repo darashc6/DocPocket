@@ -80,7 +80,6 @@ public class TabSoporte extends Fragment {
             mensajeEscrito.setBackgroundTintList(getContext().getColorStateList(R.color.modoOscuro));
             nombreEscrito.setBackgroundTintList(getContext().getColorStateList(R.color.modoOscuro));
             mensajeEscrito.setHintTextColor(getContext().getColor(R.color.modoOscuro));
-
         }
     }
 }
