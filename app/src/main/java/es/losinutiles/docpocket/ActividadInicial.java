@@ -80,7 +80,7 @@ public class ActividadInicial extends AppCompatActivity {
                 }
             } catch (ApiException e) {
                 e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Error a la hora de varificar la cuenta de Google. Inténtelo de nuevo", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error a la hora de verificar la cuenta de Google. Inténtelo de nuevo", Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(getApplicationContext(), "Que haces programando a las 12 de la noche", Toast.LENGTH_LONG).show();
