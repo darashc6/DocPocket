@@ -20,6 +20,7 @@ public class TabHistorial extends Fragment {
     /**
      * Aqui introducimos los valores al listView.
      */
+    ArrayList<String[]>array=new ArrayList<String[]>();
     ListView lista;
     String[][] datos = {
             {"PruebaVariable", "5 dias","Java"},
@@ -39,20 +40,8 @@ public class TabHistorial extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_historial, container, false);
         lista = view.findViewById(R.id.idLista);
-        ArrayList<String[]>array=new ArrayList<String[]>();
         main=new MainActivity();
         this.contaner=container;
-        for(int z=0;z<datos.length;z++){
-                if (main.CargarLenguaje(getContext()).equals(datos[z][2])) {
-                    array.add(datos[z]);
-                } else if (main.CargarLenguaje(getContext()).equals(datos[z][2])) {
-                    array.add(datos[z]);
-                } else if(main.CargarLenguaje(getContext()).equals("Todos")) {
-                    array.add(datos[z]);
-                }
-            }
-
-
         AdaptadorListView adapter=new AdaptadorListView(getContext(),array,datosImg);
         lista.setAdapter(adapter);
         return view;
@@ -68,7 +57,21 @@ public class TabHistorial extends Fragment {
         }else{
             contaner.setBackgroundResource(R.color.modoOscuro);
         }
+        for(int z=0;z<datos.length;z++){
+            if (main.CargarLenguaje(getContext()).equals(datos[z][2])) {
+                array.add(datos[z]);
+            } else if (main.CargarLenguaje(getContext()).equals(datos[z][2])) {
+                array.add(datos[z]);
+            } else if(main.CargarLenguaje(getContext()).equals("Todos")) {
+                array.add(datos[z]);
+            }
+        }
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        array.clear();
     }
 }
 
