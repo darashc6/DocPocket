@@ -67,6 +67,7 @@ public class TabSoporte extends Fragment {
             nombre.setTextColor(getContext().getColor(R.color.Blanco));
             email.setTextColor(getContext().getColor(R.color.Blanco));
             problema.setTextColor(getContext().getColor(R.color.Blanco));
+            mensajeEscrito.setHintTextColor(getContext().getColor(R.color.Blanco));
         }else{
             botonEnviarMensaje.setBackgroundResource(R.color.Blanco);
             nombreEscrito.setTextColor(getContext().getColor(R.color.modoOscuro));
@@ -78,6 +79,8 @@ public class TabSoporte extends Fragment {
             emailEscrito.setBackgroundTintList(getContext().getColorStateList(R.color.modoOscuro));
             mensajeEscrito.setBackgroundTintList(getContext().getColorStateList(R.color.modoOscuro));
             nombreEscrito.setBackgroundTintList(getContext().getColorStateList(R.color.modoOscuro));
+            mensajeEscrito.setHintTextColor(getContext().getColor(R.color.modoOscuro));
+
         }
     }
 }
