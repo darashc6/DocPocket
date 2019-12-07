@@ -3,7 +3,7 @@
     <item
         android:id="@+id/lenguajeJava"
         android:title="@string/lenguajeJava"
-        android:icon="@drawable/java_icon"/>
+        android:icon="@drawable/java_icon" />
 
     <item
         android:id="@+id/lenguajeCSharp"

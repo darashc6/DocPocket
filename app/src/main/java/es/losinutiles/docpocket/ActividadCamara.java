@@ -40,6 +40,7 @@ import java.util.ArrayList;
 
 public class ActividadCamara extends AppCompatActivity {
     private Bundle bundle; // Bundle para devolver los datos de otra actividad
+    private String documentacion;//Según la camara iniciada, se abrirá una documentacion u otra(Java o C#)
     private String[] permisosCamara; // Permisos necesarios para la cámara
     private String[] palabras; // Almacena las palabras escaneadas por texto. Los divide de 1 en 1 utilizando split
     private ArrayList<String> palabrasEscaneadas; // Palabra que se va a utlizar para buscar documentación sobre ella
@@ -69,7 +70,11 @@ public class ActividadCamara extends AppCompatActivity {
 
         bundle=getIntent().getExtras();
         lenguajeElegido.setText("Ha elegido el lenguaje "+bundle.getString("lenguajeElegido"));
-
+        if(bundle.getString("lenguajeElegido").equals("Java")){
+            documentacion="DocumentacionJava";
+        }else{
+            documentacion="DocumentacionCSharp";
+        }
         activarCamara();
     }
 
@@ -195,7 +200,7 @@ public class ActividadCamara extends AppCompatActivity {
                     palabras=texto.toString().toLowerCase().split(" ");
                     try{
                         referencia= FirebaseDatabase.getInstance().getReference();
-                        referencia.child("DocumentacionJava").addValueEventListener(new ValueEventListener() {
+                        referencia.child(documentacion).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
