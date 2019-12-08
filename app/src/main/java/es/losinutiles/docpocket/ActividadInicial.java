@@ -34,13 +34,13 @@ public class ActividadInicial extends AppCompatActivity {
 
         barraProgreso=findViewById(R.id.progressBarCircular);
         // Permite elegir con que cuenta de google quiere iniciar sesion
-        GoogleSignInOptions gsio=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gsio=new GoogleSignInOptions.Builder()
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        gsic=GoogleSignIn.getClient(getBaseContext(), gsio);
-    }
+        gsic=GoogleSignIn.getClient(getApplicationContext(), gsio);
 
+    }
 
     /**
      * Función que inicia sesión utilizando la autencticación de Google
@@ -61,6 +61,7 @@ public class ActividadInicial extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == GOOGLE_SIGN) {
             GoogleSignInResult resultado= Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if(resultado.isSuccess()){
@@ -69,7 +70,7 @@ public class ActividadInicial extends AppCompatActivity {
                     autenticacionFirebase(cuentaGoogle.getEmail());
                 }
             }else{
-                Toast.makeText(getApplicationContext(), "Null", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
             }
 
         } else {
