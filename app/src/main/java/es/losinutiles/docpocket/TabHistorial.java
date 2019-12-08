@@ -20,12 +20,9 @@ public class TabHistorial extends Fragment {
     /**
      * Aqui introducimos los valores al listView.
      */
-<<<<<<< HEAD
     ArrayList<String[]>array=new ArrayList<String[]>();
-=======
 
 
->>>>>>> a15b1fbf39224c9560089bf3b3e659b5bdb91d68
     ListView lista;
     String[][] datos = {
             {"PruebaVariable", "5 dias","Java"},

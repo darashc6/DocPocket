@@ -157,7 +157,7 @@ public class ActividadCamara extends AppCompatActivity {
      * @param data No nos hace falta para este caso
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         // Vamos a recibir la imagen de la cámara
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == cogerImagenCamaraID) {
@@ -232,11 +232,11 @@ public class ActividadCamara extends AppCompatActivity {
                                                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                                                textoEscaneado.setText(textoEscaneado.getText()+s);
                                            }
+                                       }else{
+
                                        }
                                     }catch(Exception ex){
-                                       Toast.makeText(getApplicationContext(), "No se ha encontrado una clase correcta", Toast.LENGTH_LONG).show();
-                                    Intent intent=new Intent(getApplicationContext(), TabHistorial.class);
-                                    startActivity(intent);
+                                       Toast.makeText(getApplicationContext(), "Error Fatal", Toast.LENGTH_LONG).show();
                                    }
                                    }
                             }
