@@ -5,6 +5,44 @@
     "project_id": "fir-docpocket",
     "storage_bucket": "fir-docpocket.appspot.com"
   },
-  "client": [],
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119468812048:android:3b9ba87453212a2c50a795",
+        "android_client_info": {
+          "package_name": "es.losinutiles.docpocket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119468812048-sauvpqr1jjq4eoib3g3defejq4vdtjul.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.losinutiles.docpocket",
+            "certificate_hash": "13d1f848049264021bf1c50b45522736301dfc53"
+          }
+        },
+        {
+          "client_id": "119468812048-07vmroeh7qulc4du6a6pj19unnt3jf65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTuJxbbm0kJACvK80-t-PH77mCp7LLbcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119468812048-07vmroeh7qulc4du6a6pj19unnt3jf65.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
   "configuration_version": "1"
 }
