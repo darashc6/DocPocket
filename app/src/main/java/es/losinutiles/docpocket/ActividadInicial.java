@@ -38,7 +38,7 @@ public class ActividadInicial extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        gsic=GoogleSignIn.getClient(getApplicationContext(), gsio);
+        gsic=GoogleSignIn.getClient(getBaseContext(), gsio);
     }
 
 
@@ -63,10 +63,15 @@ public class ActividadInicial extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GOOGLE_SIGN) {
             GoogleSignInResult resultado= Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            GoogleSignInAccount cuentaGoogle=resultado.getSignInAccount();
-            if (cuentaGoogle.getEmail()!=null) {
-                autenticacionFirebase(cuentaGoogle.getEmail());
+            if(resultado.isSuccess()){
+                GoogleSignInAccount cuentaGoogle=resultado.getSignInAccount();
+                if (cuentaGoogle.getEmail()!=null) {
+                    autenticacionFirebase(cuentaGoogle.getEmail());
+                }
+            }else{
+                Toast.makeText(getApplicationContext(), "Null", Toast.LENGTH_LONG).show();
             }
+
         } else {
             Toast.makeText(getApplicationContext(), "Este error saldrá si alguién ha programando a las 1 de la noche y no ha hecho las cosas bien", Toast.LENGTH_LONG).show();
         }
