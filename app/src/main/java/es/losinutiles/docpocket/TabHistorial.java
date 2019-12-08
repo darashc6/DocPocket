@@ -63,10 +63,7 @@ public class TabHistorial extends Fragment {
         AdaptadorListView adapter=new AdaptadorListView(getContext(),array,datosImg);
         lista.setAdapter(adapter);
 
-
-
-
-        initializeViews();
+        initializeViews(view);
 
         return view;
     }
@@ -84,10 +81,10 @@ public class TabHistorial extends Fragment {
 
     }
 
-    private void initializeViews(){
-        spinnerCategoria= getView().findViewById(R.id.idSpinnerLenguajes);
-        spinnerCategoria.setAdapter(new ArrayAdapter<>(getView().getContext(),android.R.layout.simple_list_item_1,categorias));
-        lista.setAdapter(new ArrayAdapter<Objetos>(getView().getContext(),android.R.layout.simple_list_item_1,getLenguajes()));
+    private void initializeViews(View view){
+        spinnerCategoria=view.findViewById(R.id.idSpinnerLenguajes);
+        spinnerCategoria.setAdapter(new ArrayAdapter<>(view.getContext(),android.R.layout.simple_list_item_1,categorias));
+        lista.setAdapter(new ArrayAdapter<Objetos>(view.getContext(),android.R.layout.simple_list_item_1,getLenguajes()));
 
         spinnerCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
