@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,9 @@ public class TabHistorial extends Fragment {
 
 
     ListView lista;
+    Spinner spinnerCategoria;
+    ArrayAdapter<Objetos> adapter;
+    String []categorias={"Todo","Java","C#"};
     String[][] datos = {
             {"PruebaVariable", "5 dias","Java"},
             {"PruebaVariable", "6 dias","C#"},
@@ -57,6 +62,12 @@ public class TabHistorial extends Fragment {
 
         AdaptadorListView adapter=new AdaptadorListView(getContext(),array,datosImg);
         lista.setAdapter(adapter);
+
+
+
+
+        initializeViews();
+
         return view;
     }
 
@@ -72,5 +83,82 @@ public class TabHistorial extends Fragment {
         }
 
     }
+
+    private void initializeViews(){
+        spinnerCategoria= getView().findViewById(R.id.idSpinnerLenguajes);
+        spinnerCategoria.setAdapter(new ArrayAdapter<>(getView().getContext(),android.R.layout.simple_list_item_1,categorias));
+        lista.setAdapter(new ArrayAdapter<Objetos>(getView().getContext(),android.R.layout.simple_list_item_1,getLenguajes()));
+
+        spinnerCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                if(position >=0 && position<categorias.length){
+                    getSelectedCategoryData(position);
+
+                }else{
+                    Toast.makeText(view.getContext(),"La categoria seleccionada no existe",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+
+    private ArrayList<Objetos> getLenguajes(){
+        ArrayList<Objetos> data=new ArrayList<>();
+        data.clear();
+        data.add(new Objetos("Prueba Java",1));
+        data.add(new Objetos("Prueba C#",2));
+        return data;
+    }
+
+    private void getSelectedCategoryData(int categoriaID){
+        ArrayList<Objetos> lenguajes=new ArrayList<>();
+        if(categoriaID == 0){
+            adapter=new ArrayAdapter<Objetos>(getView().getContext(),android.R.layout.simple_list_item_1,getLenguajes());
+
+        }else{
+            for(Objetos lenguaje : getLenguajes()){
+                if(lenguaje.getCategoriaId()==categoriaID){
+                    lenguajes.add(lenguaje);
+                }
+            }
+
+            adapter= new ArrayAdapter<Objetos>(getView().getContext(),android.R.layout.simple_list_item_1,lenguajes);
+        }
+
+        lista.setAdapter(adapter);
+    }
+
+
+    //Esta clase representa a un objeto que hayamos escaneado , por ejemplo. FileWriter, BufferedReader, etc...
+
+    class Objetos{
+        private String nombre;
+        private int categoriaId;
+
+        public String getNombre(){
+            return nombre;
+        }
+
+        public int getCategoriaId(){
+            return categoriaId;
+
+        }
+
+        public Objetos (String n,int cid){
+            this.nombre=n;
+            this.categoriaId=cid;
+        }
+
+
+
+    }
+
 }
 

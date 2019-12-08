@@ -26,14 +26,9 @@ public class TabFavoritos extends Fragment {
     @Override
     public  View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_tab_favoritos, container, false);
-        boton2 = view.findViewById(R.id.boton2);
+
         adaptadorListView=new AdaptadorListView();
-        boton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Ha hecho clic en el boton del fragmento 1", Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
 
         return view;
