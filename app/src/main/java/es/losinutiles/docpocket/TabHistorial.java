@@ -30,11 +30,11 @@ public class TabHistorial extends Fragment {
     ArrayAdapter<Objetos> adapter;
     String []categorias={"Todo","Java","C#"};
     String[][] datos = {
-            {"PruebaVariable", "5 dias","Java"},
-            {"PruebaVariable", "6 dias","C#"},
-            {"PruebaVariable", "7 dias","Java"},
-            {"PruebaVariable", "9 dias","C#"},
-            {"PruebaVariable", "16 dias","Java"},
+            {"FileWriter", "5 dias","Java"},
+            {"BufferedReader", "6 dias","C#"},
+            {"FileLock", "7 dias","Java"},
+            {"Path", "9 dias","C#"},
+            {"Run", "16 dias","Java"},
 
     };
     //Todavia no puedo inicializar este array hasta que no tengamos
@@ -47,6 +47,8 @@ public class TabHistorial extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_historial, container, false);
         lista = view.findViewById(R.id.idLista);
+
+
         main=new MainActivity();
         this.contaner=container;
         AdaptadorListView adapter=new AdaptadorListView(getContext(),array,datosImg);

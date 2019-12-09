@@ -15,6 +15,38 @@
       },
       "oauth_client": [
         {
+          "client_id": "332517781987-ru534cop3sqaa2eslf02268lpnh781su.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.losinutiles.docpocket",
+            "certificate_hash": "f2a60feb06163265455f80a634b3326b16d4e4fc"
+          }
+        },
+        {
+          "client_id": "332517781987-d3tb346fe4ir92dsasog62b5cs42m85b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.losinutiles.docpocket",
+            "certificate_hash": "987c1f690d250766bd33fe10f2f369d4ca38d617"
+          }
+        },
+        {
+          "client_id": "332517781987-gn0jb3ogamdueode73kjni3i5bo7di8o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.losinutiles.docpocket",
+            "certificate_hash": "e78a67e168d2b2a5d94461bae9d8a5d7ef8a3e93"
+          }
+        },
+        {
+          "client_id": "332517781987-8qdjlbnopkq6hkm5p7uvp7sbpj399e85.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.losinutiles.docpocket",
+            "certificate_hash": "13d1f848049264021bf1c50b45522736301dfc53"
+          }
+        },
+        {
           "client_id": "332517781987-q14d32hhrhk49irta200ien4pf7ul457.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
