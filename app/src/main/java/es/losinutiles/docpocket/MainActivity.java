@@ -38,7 +38,7 @@ import java.io.IOError;
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     private AdapterParaFragmentos adapter; // Adapter utilizado para los fragmentos
     private ViewPager viewPager; // Despalzar los fragmentos deslizando hacia la izquierda o derecha
     private Toolbar toolbar; // Lo utilizaremos para mostrar las opciones (Los 3 puntitos) - TODO

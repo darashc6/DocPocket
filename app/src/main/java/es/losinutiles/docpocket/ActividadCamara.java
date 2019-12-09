@@ -215,17 +215,11 @@ public class ActividadCamara extends AppCompatActivity {
                                         }
                                     }
 
-                                    Intent intentPaginaBusqueda=new Intent(getApplicationContext(), ActividadBusquedaClases.class);
-                                    Bundle bundlePasarDatosClase=new Bundle();
+                                    if (palabraEscaneada!=null) {
 
-                                    bundlePasarDatosClase.putString("nombreClase", palabraEscaneada);
-                                    if(bundle.getString("lenguajeElegido").equals("Java")){
-                                        bundlePasarDatosClase.putInt("idImagenLenguaje", R.drawable.icono_java);
-                                    }else{
-                                        bundlePasarDatosClase.putInt("idImagenLenguaje", R.drawable.icono_csharp);
+                                    } else {
+
                                     }
-                                    intentPaginaBusqueda.putExtras(bundlePasarDatosClase);
-                                    startActivity(intentPaginaBusqueda);
                                 } else {
                                     Toast.makeText(getApplicationContext(), "No se ha encontrado ningúna clase con el texto que se ha escaneado", Toast.LENGTH_LONG).show();
                                 }

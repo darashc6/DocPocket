@@ -19,17 +19,19 @@ public class AdaptadorListView extends BaseAdapter {
     private MainActivity main;
     private TextView textoTituloVariable;
     private TextView textoFechaHistorial;
-    private TextView lenguaje;
-    private TextView datolenguaje;
-    Context contexto;
-    ArrayList<String[]>datos;
+    private Context contexto;
+    ArrayList<String> nombreClase;
+    ArrayList<String> dias;
+    ArrayList<Integer> idImagen;
     int [] datosImg;
     public AdaptadorListView(){
 
     }
-    public AdaptadorListView(Context contexto, ArrayList<String[]>datos, int[] datosImg) {
+    public AdaptadorListView(Context contexto, ArrayList<String> nombreClase, ArrayList<String> dias, ArrayList<Integer> idImagen) {
         this.contexto = contexto;
-        this.datos = datos;
+        this.nombreClase=nombreClase;
+        this.dias=dias;
+        this.idImagen=idImagen;
         this.datosImg = datosImg;
         inflater=(LayoutInflater) contexto.getSystemService(contexto.LAYOUT_INFLATER_SERVICE);
     }
@@ -40,14 +42,11 @@ public class AdaptadorListView extends BaseAdapter {
         main=new MainActivity();
         textoTituloVariable=(TextView)vista.findViewById(R.id.idTituloVariable);
         textoFechaHistorial=(TextView)vista.findViewById(R.id.idTextoHistorial);
-        lenguaje=vista.findViewById(R.id.textView5);
-        datolenguaje=vista.findViewById(R.id.textView6);
         ImageView imagenFoto=(ImageView)vista.findViewById((R.id.idImagenFoto));
         ImageView imagenHistorial=(ImageView)vista.findViewById((R.id.idDiasConsulta));
-        textoTituloVariable.setText(datos.get(i)[0]);
-        textoFechaHistorial.setText(datos.get(i)[1]);
-        datolenguaje.setText(datos.get(i)[2]);
-        imagenFoto.setImageResource(datosImg[i]);
+        textoTituloVariable.setText(nombreClase.get(i));
+        textoFechaHistorial.setText(dias.get(i));
+        imagenFoto.setImageResource(idImagen.get(i));
         imagenHistorial.setImageResource(R.drawable.ic_today_black_24dp);
         imagenHistorial.setTag(i);
         imagenFoto.setTag(i);
@@ -55,13 +54,9 @@ public class AdaptadorListView extends BaseAdapter {
         if(main.CargarPreferencia(contexto)){
             textoTituloVariable.setTextColor(contexto.getColor(R.color.Blanco));
             textoFechaHistorial.setTextColor(contexto.getColor(R.color.Blanco));
-            lenguaje.setTextColor(contexto.getColor(R.color.Blanco));
-            datolenguaje.setTextColor(contexto.getColor(R.color.Blanco));
         }else{
             textoTituloVariable.setTextColor(contexto.getColor(R.color.modoOscuro));
             textoFechaHistorial.setTextColor(contexto.getColor(R.color.modoOscuro));
-            lenguaje.setTextColor(contexto.getColor(R.color.modoOscuro));
-            datolenguaje.setTextColor(contexto.getColor(R.color.modoOscuro));
         }
 
         imagenFoto.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +76,7 @@ public class AdaptadorListView extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return datos.size();
+        return nombreClase.size();
     }
 
     @Override

@@ -22,44 +22,59 @@ public class TabHistorial extends Fragment {
     /**
      * Aqui introducimos los valores al listView.
      */
-    ArrayList<String[]>array=new ArrayList<String[]>();
+   //  ArrayList<String[]>array=new ArrayList<String[]>();
 
 
     ListView lista;
     Spinner spinnerCategoria;
     ArrayAdapter<Objetos> adapter;
     String []categorias={"Todo","Java","C#"};
-    String[][] datos = {
-            {"FileWriter", "5 dias","Java"},
-            {"BufferedReader", "6 dias","C#"},
-            {"FileLock", "7 dias","Java"},
-            {"Path", "9 dias","C#"},
-            {"Run", "16 dias","Java"},
-
-    };
+    ArrayList<String> nombreClase=new ArrayList<String>();
+    ArrayList<String> dias=new ArrayList<String>();
+    ArrayList<Integer> idImagen=new ArrayList<Integer>();
     //Todavia no puedo inicializar este array hasta que no tengamos
     //las imagenes guardadas del escaner.
-
-    int[] datosImg = {R.drawable.csharp_icon, R.drawable.csharp_icon, R.drawable.csharp_icon, R.drawable.csharp_icon,R.drawable.csharp_icon};
 
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_historial, container, false);
         lista = view.findViewById(R.id.idLista);
+        spinnerCategoria=view.findViewById(R.id.idSpinnerLenguajes);
+
+        spinnerCategoria.setAdapter(new ArrayAdapter<>(view.getContext(),android.R.layout.simple_list_item_1,categorias));
+
+        nombreClase.add("FileWriter");
+        nombreClase.add("Integer");
+        nombreClase.add("FileLock");
+        nombreClase.add("FileChannel");
+        nombreClase.add("String");
+
+        dias.add("5 dias");
+        dias.add("6 dias");
+        dias.add("7 dias");
+        dias.add("8 dias");
+        dias.add("10 dias");
+
+        idImagen.add(R.drawable.icono_csharp);
+        idImagen.add(R.drawable.icono_java);
+        idImagen.add(R.drawable.icono_csharp);
+        idImagen.add(R.drawable.icono_java);
+        idImagen.add(R.drawable.icono_csharp);
+
 
 
         main=new MainActivity();
         this.contaner=container;
-        AdaptadorListView adapter=new AdaptadorListView(getContext(),array,datosImg);
+        AdaptadorListView adapter=new AdaptadorListView(getContext(),nombreClase,dias, idImagen);
         lista.setAdapter(adapter);
 
-        initializeViews(view);
+        // initializeViews(view);
 
         return view;
     }
 
-    @Override
+   /*@Override
     public void onStart() {
         super.onStart();
         main=new MainActivity();
@@ -78,18 +93,15 @@ public class TabHistorial extends Fragment {
                 array.add(datos[z]);
             }
         }
-    }
+    }*/
 
-    @Override
+    /* @Override
     public void onStop() {
         super.onStop();
         array.clear();
-    }
+    }*/
 
     private void initializeViews(View view){
-        spinnerCategoria=view.findViewById(R.id.idSpinnerLenguajes);
-        spinnerCategoria.setAdapter(new ArrayAdapter<>(view.getContext(),android.R.layout.simple_list_item_1,categorias));
-        lista.setAdapter(new ArrayAdapter<Objetos>(view.getContext(),android.R.layout.simple_list_item_1,getLenguajes()));
 
         spinnerCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
