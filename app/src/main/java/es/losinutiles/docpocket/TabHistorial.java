@@ -19,27 +19,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.zip.Inflater;
 
 public class TabHistorial extends Fragment {
     private MainActivity main;
     private ViewGroup contaner;
-    /**
-     * Aqui introducimos los valores al listView.
-     */
-   //  ArrayList<String[]>array=new ArrayList<String[]>();
-
-
     private ListView lista;
     private Spinner spinnerCategoria;
     private ArrayAdapter<Objetos> adapter;
     private String []categorias={"Todo","Java","C#"};
-    private ArrayList<String> nombreClase=new ArrayList<String>();
-    private ArrayList<String> dias=new ArrayList<String>();
-    private ArrayList<Integer> idImagen=new ArrayList<Integer>();
+    ArrayList<DatosEscaner> listaDatos=new ArrayList<>();
 
-    private ArrayList<DatosEscaner> listaDatos=new ArrayList<>();
-
+    /**
+     * Aqui introducimos los valores al listView.
+     */
+   //  ArrayList<String[]>array=new ArrayList<String[]>();
 
     //Todavia no puedo inicializar este array hasta que no tengamos
     //las imagenes guardadas del escaner.
@@ -52,13 +47,23 @@ public class TabHistorial extends Fragment {
         spinnerCategoria=view.findViewById(R.id.idSpinnerLenguajes);
         spinnerCategoria.setAdapter(new ArrayAdapter<>(view.getContext(),android.R.layout.simple_list_item_1,categorias));
 
-        listaDatos.add(new DatosEscaner("FileWriter","5 dias",R.drawable.icono_java));
+        Bundle b=getActivity().getIntent().getExtras();
+        if (b==null) {
+            Toast.makeText(getContext(), "No se que estoy haciendo", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "No se que estoy haciendo, pero voy bien", Toast.LENGTH_LONG).show();
+            String nombreClase=b.getString("nombreClase");
+            int idImagen=b.getInt("idImagenLenguaje");
+            listaDatos.add(new DatosEscaner(nombreClase, "njfekn", idImagen));
+        }
+
+        /*listaDatos.add(new DatosEscaner("FileWriter","5 dias",R.drawable.icono_java));
         listaDatos.add(new DatosEscaner("BufferedReader","6 dias",R.drawable.icono_csharp));
         listaDatos.add(new DatosEscaner("Lock","8 dias",R.drawable.icono_java));
         listaDatos.add(new DatosEscaner("Run","10 dias",R.drawable.icono_java));
         listaDatos.add(new DatosEscaner("InputStreamReader","13 dias",R.drawable.icono_java));
         listaDatos.add(new DatosEscaner("Random","16 dias",R.drawable.icono_csharp));
-        listaDatos.add(new DatosEscaner("Timer","19 dias",R.drawable.icono_csharp));
+        listaDatos.add(new DatosEscaner("Timer","19 dias",R.drawable.icono_csharp));*/
 
         SearchView barraBusqueda=(SearchView)view.findViewById(R.id.idBusqueda);
 
@@ -69,11 +74,6 @@ public class TabHistorial extends Fragment {
         lista.setAdapter(adaptador);
 
         // initializeViews(view);
-
-        for (int i=0;i<listaDatos.size();i++){
-            nombreClase.add(listaDatos.get(i).getNombreClase());
-
-        }
 
 
         /**
@@ -109,33 +109,6 @@ public class TabHistorial extends Fragment {
 
         return view;
     }
-
-   /*@Override
-    public void onStart() {
-        super.onStart();
-        main=new MainActivity();
-        if(!main.CargarPreferencia(getContext())){
-            contaner.setBackgroundResource(R.color.Blanco);
-
-        }else{
-            contaner.setBackgroundResource(R.color.modoOscuro);
-        }
-        for(int z=0;z<datos.length;z++){
-            if (main.CargarLenguaje(getContext()).equals(datos[z][2])) {
-                array.add(datos[z]);
-            } else if (main.CargarLenguaje(getContext()).equals(datos[z][2])) {
-                array.add(datos[z]);
-            } else if(main.CargarLenguaje(getContext()).equals("Todos")) {
-                array.add(datos[z]);
-            }
-        }
-    }*/
-
-    /* @Override
-    public void onStop() {
-        super.onStop();
-        array.clear();
-    }*/
 
     private void initializeViews(View view){
 

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="5dp"
+    android:layout_marginTop="20dp"
     tools:context=".ActividadBusquedaClases">
 
     <androidx.constraintlayout.widget.Guideline
@@ -32,9 +33,10 @@
         android:id="@+id/idTituloVariable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FileWriter"
+        android:text=""
+        android:textColor="@color/negro"
         android:textSize="30sp"
-        android:transitionName="nombreClaseTransition"
+        android:transitionName="@string/transicionNombreClase"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.45"
@@ -45,7 +47,7 @@
         android:id="@+id/idImagenFoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:transitionName="imagenTransition"
+        android:transitionName="@string/transicionImagen"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="parent"

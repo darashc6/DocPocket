@@ -31,6 +31,11 @@
     <string name="buscarStackOverFlow">Buscar en StackOverflow</string>
     <string name="buscarGoogle">Buscar en Google</string>
     <string name="buscarYoutube">Buscar en Youtube</string>
+    <string name="tituloEscaner">Error</string>
+    <string name="mensajeEscaner">No se ha podido encontrar la clase a partir de la foto escaneada. Intentelo de nuevo con una nueva foto</string>
+    <string name="botonOK">OK</string>
+    <string name="transicionNombreClase">nombreClaseTransicion</string>
+    <string name="transicionImagen">imagenTransicion</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

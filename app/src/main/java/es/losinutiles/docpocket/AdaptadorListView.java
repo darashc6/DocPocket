@@ -2,54 +2,40 @@ package es.losinutiles.docpocket;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-
-import com.google.firebase.database.DatabaseReference;
-
 import java.util.ArrayList;
 
 public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
-    private  LayoutInflater inflater;
-    private DatabaseReference referencia;
-    private MainActivity main;
-    private TextView textoTituloVariable;
-    private TextView textoFechaHistorial;
-    private Context contexto;
-    private ArrayList<DatosEscaner>lista;
-    int [] datosImg;
+    private MainActivity main; // Actividad principal
+    private TextView textoTituloVariable; // TextView con el nombre de la clase
+    private TextView textoFechaHistorial; // TextView con la fecha de la captura
+    private Context contexto; // Contexto de la aplicación
+    private ArrayList<DatosEscaner>lista; // ArrayList de datos escaneados
 
-    public AdaptadorListView(@NonNull Context context,  ArrayList<DatosEscaner> lista) {
+    /**
+     * Constructor de AdaptadorListView
+     * @param context Contexto de la aplicación
+     * @param lista ArrayList con los datos escaneados
+     */
+    public AdaptadorListView(Context context,  ArrayList<DatosEscaner> lista) {
         super(context,0,lista);
         this.contexto=context;
         this.lista=lista;
 
     }
 
-    /*
-    public AdaptadorListView(){
-
-    }
-    */
-    /*
-    public AdaptadorListView(Context contexto, ArrayList<String> nombreClase, ArrayList<String> dias, ArrayList<Integer> idImagen) {
-        this.contexto = contexto;
-        this.nombreClase=nombreClase;
-        this.dias=dias;
-        this.idImagen=idImagen;
-        this.datosImg = datosImg;
-        inflater=(LayoutInflater) contexto.getSystemService(contexto.LAYOUT_INFLATER_SERVICE);
-    }
-*/
+    /**
+     * Devuelve el view de cada elemento del listview
+     * @param i Posición del elemento
+     * @param view view del elemento
+     * @param viewGroup conjunto de view
+     * @return view del elemento
+     */
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater=((Activity)contexto).getLayoutInflater();
@@ -64,7 +50,11 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
         imagenFoto.setImageResource(lista.get(i).getIdImagen());
         imagenHistorial.setImageResource(R.drawable.ic_today_black_24dp);
         imagenHistorial.setTag(i);
-        imagenFoto.setTag(i);
+        if (lista.get(i).getIdImagen()==R.drawable.icono_java) {
+            imagenFoto.setTag(R.drawable.icono_java);
+        } else {
+            imagenFoto.setTag(R.drawable.icono_csharp);
+        }
 
         if(main.CargarPreferencia(contexto)){
             textoTituloVariable.setTextColor(contexto.getColor(R.color.Blanco));
@@ -74,7 +64,7 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
             textoFechaHistorial.setTextColor(contexto.getColor(R.color.modoOscuro));
         }
 
-        imagenFoto.setOnClickListener(new View.OnClickListener() {
+        /*imagenFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent visorImagen=new Intent(contexto,VisorImagen.class);
@@ -83,22 +73,26 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
 
 
             }
-        });
+        });*/
 
         return view;
     }
 
 
+    /**
+     * Función que cuenta el nº de elementos que contiene el listview
+     * @return Nº de elementos del listview
+     */
     @Override
     public int getCount() {
         return lista.size();
     }
 
-   /* @Override
-    public Object getItem(int i) {
-        return null;
-    }
-*/
+    /**
+     * Función que devuelve el id del elemento del listview
+     * @param i Posicion del elemento
+     * @return 0
+     */
     @Override
     public long getItemId(int i) {
         return 0;

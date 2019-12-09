@@ -2,6 +2,7 @@ package es.losinutiles.docpocket;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -9,6 +10,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -24,6 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
@@ -195,7 +199,6 @@ public class ActividadCamara extends AppCompatActivity {
                         referencia.child(documentacion).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                Toast.makeText(getApplicationContext(), "Hola?", Toast.LENGTH_LONG).show();
                                 if(dataSnapshot.exists()) {
                                     //Implementado las consultas.
                                     //Hay que rellenar la base de datos con las clases y su respectivo valor en minuscula
@@ -215,10 +218,24 @@ public class ActividadCamara extends AppCompatActivity {
                                         }
                                     }
 
+                                    // Si encuentra la palabra escaneada, que meta los datos en el Tab de Historial
+                                    // TODO Hacer que funcione más de 1 vez
                                     if (palabraEscaneada!=null) {
+                                        Intent intentPaginaBusqueda=new Intent(getApplicationContext(), MainActivity.class);
+                                        Bundle bundlePasarDatosClase=new Bundle();
 
+                                        bundlePasarDatosClase.putString("nombreClase", palabraEscaneada);
+                                        if(bundle.getString("lenguajeElegido").equals("Java")){
+                                            bundlePasarDatosClase.putInt("idImagenLenguaje", R.drawable.icono_java);
+                                        }else{
+                                            bundlePasarDatosClase.putInt("idImagenLenguaje", R.drawable.icono_csharp);
+                                        }
+                                        intentPaginaBusqueda.putExtras(bundlePasarDatosClase);
+                                        intentPaginaBusqueda.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intentPaginaBusqueda);
+                                        Toast.makeText(getApplicationContext(), "¡Texto escaneado!", Toast.LENGTH_LONG).show();
                                     } else {
-
+                                        errorEscaneando();
                                     }
                                 } else {
                                     Toast.makeText(getApplicationContext(), "No se ha encontrado ningúna clase con el texto que se ha escaneado", Toast.LENGTH_LONG).show();
@@ -247,5 +264,26 @@ public class ActividadCamara extends AppCompatActivity {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * Función que muestra un diálogo de error en el caso de que no encuentra la clase en el texto esacaneado
+     */
+    public void errorEscaneando() {
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
+        dialogo.setIcon(R.drawable.ic_warning_black_24dp);
+        dialogo.setTitle(getResources().getString(R.string.tituloEscaner));
+        dialogo.setMessage(getResources().getString(R.string.mensajeEscaner));
+
+        dialogo.setPositiveButton(getResources().getString(R.string.botonOK), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent paginaInicio=new Intent(getApplicationContext(), MainActivity.class);
+                paginaInicio.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(paginaInicio);
+            }
+        });
+
+        dialogo.show();
     }
 }
