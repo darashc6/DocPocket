@@ -1,32 +1,46 @@
 package es.losinutiles.docpocket;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
-public class AdaptadorListView extends BaseAdapter {
-    private static LayoutInflater inflater=null;
+public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
+    private  LayoutInflater inflater;
     private DatabaseReference referencia;
     private MainActivity main;
     private TextView textoTituloVariable;
     private TextView textoFechaHistorial;
     private Context contexto;
-    ArrayList<String> nombreClase;
-    ArrayList<String> dias;
-    ArrayList<Integer> idImagen;
+    private ArrayList<DatosEscaner>lista;
     int [] datosImg;
+
+    public AdaptadorListView(@NonNull Context context,  ArrayList<DatosEscaner> lista) {
+        super(context,0,lista);
+        this.contexto=context;
+        this.lista=lista;
+
+    }
+
+    /*
     public AdaptadorListView(){
 
     }
+    */
+    /*
     public AdaptadorListView(Context contexto, ArrayList<String> nombreClase, ArrayList<String> dias, ArrayList<Integer> idImagen) {
         this.contexto = contexto;
         this.nombreClase=nombreClase;
@@ -35,18 +49,19 @@ public class AdaptadorListView extends BaseAdapter {
         this.datosImg = datosImg;
         inflater=(LayoutInflater) contexto.getSystemService(contexto.LAYOUT_INFLATER_SERVICE);
     }
-
+*/
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-         View vista=inflater.inflate(R.layout.elemento_lista_historial,null);
+        LayoutInflater inflater=((Activity)contexto).getLayoutInflater();
+        view =inflater.inflate(R.layout.elemento_lista_historial,null);
         main=new MainActivity();
-        textoTituloVariable=(TextView)vista.findViewById(R.id.idTituloVariable);
-        textoFechaHistorial=(TextView)vista.findViewById(R.id.idTextoHistorial);
-        ImageView imagenFoto=(ImageView)vista.findViewById((R.id.idImagenFoto));
-        ImageView imagenHistorial=(ImageView)vista.findViewById((R.id.idDiasConsulta));
-        textoTituloVariable.setText(nombreClase.get(i));
-        textoFechaHistorial.setText(dias.get(i));
-        imagenFoto.setImageResource(idImagen.get(i));
+        textoTituloVariable=(TextView)view.findViewById(R.id.idTituloVariable);
+        textoFechaHistorial=(TextView)view.findViewById(R.id.idTextoHistorial);
+        ImageView imagenFoto=(ImageView)view.findViewById((R.id.idImagenFoto));
+        ImageView imagenHistorial=(ImageView)view.findViewById((R.id.idDiasConsulta));
+        textoTituloVariable.setText(lista.get(i).getNombreClase());
+        textoFechaHistorial.setText(lista.get(i).getDias());
+        imagenFoto.setImageResource(lista.get(i).getIdImagen());
         imagenHistorial.setImageResource(R.drawable.ic_today_black_24dp);
         imagenHistorial.setTag(i);
         imagenFoto.setTag(i);
@@ -70,20 +85,20 @@ public class AdaptadorListView extends BaseAdapter {
             }
         });
 
-        return vista;
+        return view;
     }
 
 
     @Override
     public int getCount() {
-        return nombreClase.size();
+        return lista.size();
     }
 
-    @Override
+   /* @Override
     public Object getItem(int i) {
         return null;
     }
-
+*/
     @Override
     public long getItemId(int i) {
         return 0;

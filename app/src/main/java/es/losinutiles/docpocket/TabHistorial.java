@@ -2,11 +2,15 @@ package es.losinutiles.docpocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.SearchEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -15,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 public class TabHistorial extends Fragment {
     private MainActivity main;
@@ -25,13 +30,17 @@ public class TabHistorial extends Fragment {
    //  ArrayList<String[]>array=new ArrayList<String[]>();
 
 
-    ListView lista;
-    Spinner spinnerCategoria;
-    ArrayAdapter<Objetos> adapter;
-    String []categorias={"Todo","Java","C#"};
-    ArrayList<String> nombreClase=new ArrayList<String>();
-    ArrayList<String> dias=new ArrayList<String>();
-    ArrayList<Integer> idImagen=new ArrayList<Integer>();
+    private ListView lista;
+    private Spinner spinnerCategoria;
+    private ArrayAdapter<Objetos> adapter;
+    private String []categorias={"Todo","Java","C#"};
+    private ArrayList<String> nombreClase=new ArrayList<String>();
+    private ArrayList<String> dias=new ArrayList<String>();
+    private ArrayList<Integer> idImagen=new ArrayList<Integer>();
+
+    private ArrayList<DatosEscaner> listaDatos=new ArrayList<>();
+
+
     //Todavia no puedo inicializar este array hasta que no tengamos
     //las imagenes guardadas del escaner.
 
@@ -41,35 +50,62 @@ public class TabHistorial extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab_historial, container, false);
         lista = view.findViewById(R.id.idLista);
         spinnerCategoria=view.findViewById(R.id.idSpinnerLenguajes);
-
         spinnerCategoria.setAdapter(new ArrayAdapter<>(view.getContext(),android.R.layout.simple_list_item_1,categorias));
 
-        nombreClase.add("FileWriter");
-        nombreClase.add("Integer");
-        nombreClase.add("FileLock");
-        nombreClase.add("FileChannel");
-        nombreClase.add("String");
+        listaDatos.add(new DatosEscaner("FileWriter","5 dias",R.drawable.icono_java));
+        listaDatos.add(new DatosEscaner("BufferedReader","6 dias",R.drawable.icono_csharp));
+        listaDatos.add(new DatosEscaner("Lock","8 dias",R.drawable.icono_java));
+        listaDatos.add(new DatosEscaner("Run","10 dias",R.drawable.icono_java));
+        listaDatos.add(new DatosEscaner("InputStreamReader","13 dias",R.drawable.icono_java));
+        listaDatos.add(new DatosEscaner("Random","16 dias",R.drawable.icono_csharp));
+        listaDatos.add(new DatosEscaner("Timer","19 dias",R.drawable.icono_csharp));
 
-        dias.add("5 dias");
-        dias.add("6 dias");
-        dias.add("7 dias");
-        dias.add("8 dias");
-        dias.add("10 dias");
-
-        idImagen.add(R.drawable.icono_csharp);
-        idImagen.add(R.drawable.icono_java);
-        idImagen.add(R.drawable.icono_csharp);
-        idImagen.add(R.drawable.icono_java);
-        idImagen.add(R.drawable.icono_csharp);
-
-
+        SearchView barraBusqueda=(SearchView)view.findViewById(R.id.idBusqueda);
 
         main=new MainActivity();
         this.contaner=container;
-        AdaptadorListView adapter=new AdaptadorListView(getContext(),nombreClase,dias, idImagen);
-        lista.setAdapter(adapter);
+        final AdaptadorListView adaptador=new AdaptadorListView(getContext(),listaDatos);
+
+        lista.setAdapter(adaptador);
 
         // initializeViews(view);
+
+        for (int i=0;i<listaDatos.size();i++){
+            nombreClase.add(listaDatos.get(i).getNombreClase());
+
+        }
+
+
+        /**
+         * Esta es la funcion de la barra de busqueda.
+         */
+        barraBusqueda.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                for(int i=0;i<listaDatos.size();i++){
+
+                    if(listaDatos.get(i).getNombreClase().contains(query)){
+
+                        Toast.makeText(getContext(), "Soy tonto",Toast.LENGTH_LONG).show();
+                        adaptador.getFilter().filter(query);
+
+                        break;
+                    }
+
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                    adaptador.getFilter().filter(newText);
+                    return false;
+            }
+        });
+
+
 
         return view;
     }
@@ -173,6 +209,9 @@ public class TabHistorial extends Fragment {
 
 
     }
+
+
+
 
 }
 

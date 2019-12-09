@@ -27,7 +27,6 @@ public class TabFavoritos extends Fragment {
     public  View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_tab_favoritos, container, false);
 
-        adaptadorListView=new AdaptadorListView();
 
 
 
