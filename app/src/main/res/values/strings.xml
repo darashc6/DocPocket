@@ -28,7 +28,9 @@
     <string name="botonNegativoDialogo">No</string>
     <string name="textoCerrarSesion">Cerrar Sesión con Google</string>
     <string name="textoSesionCerrada">Se ha cerrado la sesión</string>
-
+    <string name="buscarStackOverFlow">Buscar en StackOverflow</string>
+    <string name="buscarGoogle">Buscar en Google</string>
+    <string name="buscarYoutube">Buscar en Youtube</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
