@@ -40,14 +40,13 @@ public class TabHistorial extends Fragment {
     private DatabaseReference dFirebase;
     private AdaptadorListView adaptador;
     private boolean datosMostrados=false;
+    private SearchView barraBusqueda;
+    private ArrayAdapter<DatosEscaner> arrayAdapter;
+
 
     /**
      * Aqui introducimos los valores al listView.
      */
-    //ArrayList<String[]>array=new ArrayList<String[]>();
-
-    //Todavia no puedo inicializar este array hasta que no tengamos
-    //las imagenes guardadas del escaner.
 
     @Nullable
     @Override
@@ -85,64 +84,31 @@ public class TabHistorial extends Fragment {
         }
 
 
-
-
-
-        /*Bundle b=getActivity().getIntent().getExtras();
-        if (b==null) {
-            Toast.makeText(getContext(), "No se que estoy haciendo", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getContext(), "No se que estoy haciendo, pero voy bien", Toast.LENGTH_LONG).show();
-            String nombreClase=b.getString("nombreClase");
-            int idImagen=b.getInt("idImagenLenguaje");
-            listaDatos.add(new DatosEscaner(nombreClase, "njfekn", idImagen));
-        }*/
-
-        /*listaDatos.add(new DatosEscaner("FileWriter","5 dias",R.drawable.icono_java));
-        listaDatos.add(new DatosEscaner("BufferedReader","6 dias",R.drawable.icono_csharp));
-        listaDatos.add(new DatosEscaner("Lock","8 dias",R.drawable.icono_java));
-        listaDatos.add(new DatosEscaner("Run","10 dias",R.drawable.icono_java));
-        listaDatos.add(new DatosEscaner("InputStreamReader","13 dias",R.drawable.icono_java));
-        listaDatos.add(new DatosEscaner("Random","16 dias",R.drawable.icono_csharp));
-        listaDatos.add(new DatosEscaner("Timer","19 dias",R.drawable.icono_csharp));*/
-
-        SearchView barraBusqueda=(SearchView)view.findViewById(R.id.idBusqueda);
-        adaptador=new AdaptadorListView(getContext(),listaDatos);
-        lista.setAdapter(adaptador);
-        main=new MainActivity();
-        this.contaner=container;
-        // Toast.makeText(getContext(), listaDatos.size()+"", Toast.LENGTH_LONG).show();
-        // final AdaptadorListView adaptador=new AdaptadorListView(getContext(),listaDatos);
-
-        // initializeViews(view);
-
-
         /**
-         * Esta es la funcion de la barra de busqueda.
+         * Esta es la funcion de busqueda.
          */
+        barraBusqueda=(SearchView)view.findViewById(R.id.idBusqueda);
+        arrayAdapter=new ArrayAdapter<DatosEscaner>(view.getContext(),android.R.layout.simple_list_item_1,listaDatos);
+        lista.setAdapter(arrayAdapter);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(view.getContext(),"Tu click"+parent.getItemAtPosition(position),Toast.LENGTH_SHORT).show();
+
+            }
+        });
         barraBusqueda.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                for(int i=0;i<listaDatos.size();i++){
-
-                    if(listaDatos.get(i).getNombreClase().contains(query)){
-
-                        Toast.makeText(getContext(), "Soy tonto",Toast.LENGTH_LONG).show();
-                        adaptador.getFilter().filter(query);
-
-                        break;
-                    }
-
-                }
+                TabHistorial.this.arrayAdapter.getFilter().filter(query);
 
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                    adaptador.getFilter().filter(newText);
-                    return false;
+                TabHistorial.this.arrayAdapter.getFilter().filter(newText);
+                return false;
             }
         });
 
