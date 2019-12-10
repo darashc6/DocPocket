@@ -51,9 +51,9 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
         imagenHistorial.setImageResource(R.drawable.ic_today_black_24dp);
         imagenHistorial.setTag(i);
         if (lista.get(i).getIdImagen()==R.drawable.icono_java) {
-            imagenFoto.setBackgroundResource(R.drawable.icono_java);
+            imagenFoto.setTag(R.drawable.icono_java);
         } else {
-            imagenFoto.setBackgroundResource(R.drawable.icono_csharp);
+            imagenFoto.setTag(R.drawable.icono_csharp);
         }
 
         if(main.CargarPreferencia(contexto)){

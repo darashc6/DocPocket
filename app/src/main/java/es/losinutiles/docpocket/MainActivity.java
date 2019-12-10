@@ -15,6 +15,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.BoringLayout;
+import android.transition.Fade;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,13 +55,12 @@ public class MainActivity extends AppCompatActivity  {
     private Boolean modoDark; // Switch para cambiar el modo osucro
     private FirebaseAuth uFirebase; // Autenticación de Firebase
     private FirebaseUser usuarioGoogle; // Usuario de Firebase
+    private DatabaseReference dFirebase;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         adapter=new AdapterParaFragmentos(getSupportFragmentManager());
         viewPager=findViewById(R.id.viewPager);
@@ -214,7 +215,6 @@ public class MainActivity extends AppCompatActivity  {
     public void mostrarActividadBusqueda(View view) {
         TextView nombreClase=view.findViewById(R.id.idTituloVariable);
         ImageView idImagenLenguage=view.findViewById(R.id.idImagenFoto);
-        // Toast.makeText(this, nombreClase.getText().toString(), Toast.LENGTH_SHORT).show();
         Intent actividadBusqueda=new Intent(this, ActividadBusquedaClases.class);
         Bundle b=new Bundle();
         b.putString("claseEscaneado", nombreClase.getText().toString());
@@ -228,17 +228,29 @@ public class MainActivity extends AppCompatActivity  {
         startActivity(actividadBusqueda, opt.toBundle());
     }
 
-    /**
-     * Función que ejecuta después de iniciar la actividad
-     */
-    @Override
-    protected void onStart() {
-        uFirebase=FirebaseAuth.getInstance();
-        usuarioGoogle=uFirebase.getCurrentUser();
-        if (usuarioGoogle!=null) {
-            Toast.makeText(getApplicationContext(), "Iniciado sesión como: "+ usuarioGoogle.getEmail(), Toast.LENGTH_LONG).show();
+    public void aniadirAFavorito(View view) {
+        DatosEscaner de=null;
+        TextView nombreClase=view.findViewById(R.id.idTituloVariable);
+        TextView fecha=view.findViewById(R.id.idTextoHistorial);
+        int idImagen=0;
+        if (nombreClase.getText().toString().contains("Java")) {
+            idImagen=R.drawable.icono_java;
+        } else {
+            idImagen=R.drawable.icono_csharp;
         }
-        super.onStart();
+        de=new DatosEscaner(nombreClase.getText().toString(), fecha.getText().toString(), idImagen);
+
+
+        /*if (bundle.getString("lenguajeElegido").equals("Java")) {
+            de=new DatosEscaner(palabraEscaneada, "Hoy", R.drawable.icono_java);
+        } else {
+            de=new DatosEscaner(palabraEscaneada, "Hoy", R.drawable.csharp_icon);
+        }
+        referencia.child("DatosUsuario").child(usuario).child("TabHistorial").child(palabraEscaneada).setValue(de);
+        Intent intentPaginaBusqueda=new Intent(getApplicationContext(), MainActivity.class);
+        intentPaginaBusqueda.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intentPaginaBusqueda);
+        Toast.makeText(getApplicationContext(), "¡Texto escaneado!", Toast.LENGTH_LONG).show()*/
     }
 }
 

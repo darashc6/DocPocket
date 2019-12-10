@@ -139,6 +139,7 @@ public class ActividadInicial extends AppCompatActivity {
             Intent irDirectamente=new Intent(this, MainActivity.class);
             irDirectamente.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(irDirectamente);
+            Toast.makeText(getApplicationContext(), "Iniciado sesión como: "+ mFirebase.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
         }
         super.onStart();
     }

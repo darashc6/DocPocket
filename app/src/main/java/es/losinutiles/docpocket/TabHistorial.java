@@ -39,6 +39,7 @@ public class TabHistorial extends Fragment {
     private ArrayList<DatosEscaner> listaDatos=new ArrayList<>();
     private DatabaseReference dFirebase;
     private AdaptadorListView adaptador;
+    private boolean datosMostrados=false;
 
     /**
      * Aqui introducimos los valores al listView.
@@ -58,29 +59,30 @@ public class TabHistorial extends Fragment {
 
         dFirebase=FirebaseDatabase.getInstance().getReference();
         String nombreUsuario=FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
-        dFirebase.child("DatosUsuario").child(nombreUsuario).child("TabHistorial").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    long nEscaneado=dataSnapshot.getChildrenCount();
-                    if (nEscaneado>0) {
-                        for (DataSnapshot ds: dataSnapshot.getChildren()) {
-                            DatosEscaner de=ds.getValue(DatosEscaner.class);
-                            Toast.makeText(getContext(), de.toString(), Toast.LENGTH_LONG).show();
-                            listaDatos.add(de);
+        if (!datosMostrados) {
+            dFirebase.child("DatosUsuario").child(nombreUsuario).child("TabHistorial").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        long nEscaneado=dataSnapshot.getChildrenCount();
+                        if (nEscaneado>0) {
+                            for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                                DatosEscaner de=ds.getValue(DatosEscaner.class);
+                                listaDatos.add(de);
+                            }
+                            adaptador=new AdaptadorListView(getContext(),listaDatos);
+                            lista.setAdapter(adaptador);
+                            datosMostrados=true;
                         }
-                        Toast.makeText(getContext(), listaDatos.size()+"", Toast.LENGTH_LONG).show();
-                        adaptador=new AdaptadorListView(getContext(),listaDatos);
-                        lista.setAdapter(adaptador);
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
 
 
 
@@ -105,7 +107,8 @@ public class TabHistorial extends Fragment {
         listaDatos.add(new DatosEscaner("Timer","19 dias",R.drawable.icono_csharp));*/
 
         SearchView barraBusqueda=(SearchView)view.findViewById(R.id.idBusqueda);
-
+        adaptador=new AdaptadorListView(getContext(),listaDatos);
+        lista.setAdapter(adaptador);
         main=new MainActivity();
         this.contaner=container;
         // Toast.makeText(getContext(), listaDatos.size()+"", Toast.LENGTH_LONG).show();

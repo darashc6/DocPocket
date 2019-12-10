@@ -6,7 +6,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.transition.Slide;
+import android.transition.Transition;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -85,5 +87,13 @@ public class ActividadBusquedaClases extends AppCompatActivity {
         slide.setDuration(2000L);
         slide.setInterpolator(AnimationUtils.loadInterpolator(getApplicationContext(), android.R.interpolator.linear_out_slow_in));
         getWindow().setEnterTransition(slide);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i=new Intent(this, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        super.onBackPressed();
     }
 }
