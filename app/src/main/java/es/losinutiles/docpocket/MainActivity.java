@@ -237,47 +237,5 @@ public class MainActivity extends AppCompatActivity  {
         ActivityOptionsCompat opt=ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2);
         startActivity(actividadBusqueda, opt.toBundle());
     }
-
-    public void aniadirAFavorito(View view) {
-        DatosEscaner de=null;
-        TextView nombreClase=view.getRootView().findViewById(R.id.idTituloVariable);
-        String nombre=nombreClase.getText().toString();
-
-        TextView fecha=view.getRootView().findViewById(R.id.idTextoHistorial);
-        int idImagen=0;
-        if (nombre.contains(" Java")) {
-            idImagen=R.drawable.icono_java;
-        } else {
-            idImagen=R.drawable.icono_csharp;
-        }
-        String nombreUsuario=FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
-        de=new DatosEscaner(nombreClase.getText().toString(), fecha.getText().toString(), idImagen);
-        dFirebase.child("DatosUsuario").child(nombreUsuario).child("TabFavoritos").child(nombreClase.getText().toString()).setValue(de);
-
-        Toast.makeText(this,"Se ha añadido a favoritos",Toast.LENGTH_LONG).show();
-
-        /*if (bundle.getString("lenguajeElegido").equals("Java")) {
-            de=new DatosEscaner(palabraEscaneada, "Hoy", R.drawable.icono_java);
-        } else {
-            de=new DatosEscaner(palabraEscaneada, "Hoy", R.drawable.csharp_icon);
-        }
-
-        Intent intentPaginaBusqueda=new Intent(getApplicationContext(), MainActivity.class);
-        intentPaginaBusqueda.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intentPaginaBusqueda);
-        Toast.makeText(getApplicationContext(), "¡Texto escaneado!", Toast.LENGTH_LONG).show()*/
-        this.recreate();
-    }
-
-    public void quitarFavorito(View view) {
-        TextView nombreClase = view.getRootView().findViewById(R.id.idTituloVariable);
-        Log.d("Datos", nombreClase.getText().toString());
-        aFirebase = FirebaseAuth.getInstance();
-        usuario = aFirebase.getCurrentUser().getEmail().split("@")[0];
-        referencia.child("DatosUsuario").child(usuario).child("TabFavoritos").child(nombreClase.getText().toString()).removeValue();
-
-        Toast.makeText(this, "Se ha borrado " + nombreClase.getText().toString(), Toast.LENGTH_LONG).show();
-        this.recreate();
-    }
 }
 

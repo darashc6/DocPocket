@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -33,12 +34,9 @@ public class TabHistorial extends Fragment {
     private MainActivity main;
     private ViewGroup contaner;
     private ListView lista;
-
-    private String []categorias={"Todo","Java","C#"};
     private ArrayList<DatosEscaner> listaDatos=new ArrayList<>();
     private DatabaseReference dFirebase;
     private AdaptadorListView adaptador;
-    private boolean datosMostrados=false;
     private SearchView barraBusqueda;
     private ArrayAdapter<DatosEscaner> arrayAdapter;
 
@@ -53,35 +51,30 @@ public class TabHistorial extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab_historial, container, false);
         lista = view.findViewById(R.id.idLista);
 
-
-
-
         dFirebase=FirebaseDatabase.getInstance().getReference();
         String nombreUsuario=FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
-        if (!datosMostrados) {
-            dFirebase.child("DatosUsuario").child(nombreUsuario).child("TabHistorial").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        long nEscaneado=dataSnapshot.getChildrenCount();
-                        if (nEscaneado>0) {
-                            for (DataSnapshot ds: dataSnapshot.getChildren()) {
-                                DatosEscaner de=ds.getValue(DatosEscaner.class);
-                                listaDatos.add(de);
-                            }
-                            adaptador=new AdaptadorListView(getContext(),listaDatos);
-                            lista.setAdapter(adaptador);
-                            datosMostrados=true;
-                        }
+        dFirebase.child("DatosUsuario").child(nombreUsuario).child("TabHistorial").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaDatos.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                        DatosEscaner de=ds.getValue(DatosEscaner.class);
+                        listaDatos.add(de);
                     }
+                    adaptador=new AdaptadorListView(getContext(),listaDatos);
+                    lista.setAdapter(adaptador);
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
-        }
+            }
+        });
+
+        adaptador=new AdaptadorListView(getContext(),listaDatos);
+        lista.setAdapter(adaptador);
 
 
         /**
@@ -100,14 +93,15 @@ public class TabHistorial extends Fragment {
         barraBusqueda.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                TabHistorial.this.arrayAdapter.getFilter().filter(query);
 
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                TabHistorial.this.arrayAdapter.getFilter().filter(newText);
+                if (newText.length()>0) {
+                    adaptador.getFilter().filter(newText);
+                }
                 return false;
             }
         });

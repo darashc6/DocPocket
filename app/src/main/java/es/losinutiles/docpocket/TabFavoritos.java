@@ -44,31 +44,26 @@ public class TabFavoritos extends Fragment {
          lista=view.findViewById(R.id.listViewFav);
          dFirebase= FirebaseDatabase.getInstance().getReference();
          String emailUsuario= FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
-         if(!datosMostrados||tamanioInicial>=0){
-             dFirebase.child("DatosUsuario").child(emailUsuario).child("TabFavoritos").addValueEventListener(new ValueEventListener() {
-                 @Override
-                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                     listaDatos.clear();
-                     if(dataSnapshot.exists()){
-                         long nEscaneado=dataSnapshot.getChildrenCount();
-                         if (nEscaneado!=tamanioInicial) {
-                             for (DataSnapshot ds: dataSnapshot.getChildren()) {
-                                  de=ds.getValue(DatosEscaner.class);
-                                 listaDatos.add(de);
-                             }
-                             datosMostrados=true;
-                             tamanioInicial=nEscaneado;
-                         }
-                     }
-                     adaptador=new AdaptadorListView(getContext(),listaDatos);
-                     lista.setAdapter(adaptador);
-                 }
-                 @Override
-                 public void onCancelled(@NonNull DatabaseError databaseError) {
+        dFirebase.child("DatosUsuario").child(emailUsuario).child("TabFavoritos").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaDatos.clear();
+                if(dataSnapshot.exists()){
+                    long nEscaneado=dataSnapshot.getChildrenCount();
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                        de=ds.getValue(DatosEscaner.class);
+                        listaDatos.add(de);
+                    }
+                    tamanioInicial=nEscaneado;
+                }
+                adaptador=new AdaptadorListView(getContext(),listaDatos);
+                lista.setAdapter(adaptador);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                 }
-             });
-         }
+            }
+        });
 
         adaptador=new AdaptadorListView(getContext(),listaDatos);
         lista.setAdapter(adaptador);

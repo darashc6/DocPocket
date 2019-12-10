@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +15,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class TabSoporte extends Fragment {
     private Button botonEnviarMensaje; // Botón para enviar el mensaje
@@ -25,6 +33,10 @@ public class TabSoporte extends Fragment {
     private TextView problema;
     private EditText mensajeEscrito; // Mensaje que ha escrito el usuario
     private FirebaseAuth mFirebase;
+    private DatabaseReference dFirebase;
+    private ArrayList<DatosEscaner> listaDatos=new ArrayList<>();
+    private AdaptadorListView adaptador;
+    private ListView listaAuxiliar;
 
     @Nullable
     @Override
@@ -38,6 +50,31 @@ public class TabSoporte extends Fragment {
         emailEscrito=view.findViewById(R.id.textoEmail);
         mensajeEscrito=view.findViewById(R.id.textoMensaje);
         mFirebase=FirebaseAuth.getInstance();
+        dFirebase= FirebaseDatabase.getInstance().getReference();
+        listaAuxiliar=view.findViewById(R.id.listaAuxiliar);
+
+        String nombreUsuario=FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
+        dFirebase.child("DatosUsuario").child(nombreUsuario).child("TabHistorial").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaDatos.clear();
+                if (dataSnapshot.exists()) {
+                    long nEscaneado=dataSnapshot.getChildrenCount();
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                        DatosEscaner de=ds.getValue(DatosEscaner.class);
+                        listaDatos.add(de);
+                    }
+                    adaptador=new AdaptadorListView(getContext(),listaDatos);
+                    listaAuxiliar.setAdapter(adaptador);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         // Aquí se hace un onclick listener para enviar el formulario escrito por el usuario
         botonEnviarMensaje.setOnClickListener(new View.OnClickListener() {
             @Override
