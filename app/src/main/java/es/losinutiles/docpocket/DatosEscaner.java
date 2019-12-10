@@ -10,11 +10,21 @@ public class DatosEscaner {
     private String nombreClase;
     private String dias;
     private int idImagen;
+    private boolean favorito;
 
     public DatosEscaner(String nombreClase, String dias, int idImagen) {
         this.nombreClase = nombreClase;
         this.dias = dias;
         this.idImagen = idImagen;
+        this.favorito=false;
+    }
+
+    public boolean isFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(boolean favorito) {
+        this.favorito = favorito;
     }
 
     public DatosEscaner(String nombreClase, String dias) {
