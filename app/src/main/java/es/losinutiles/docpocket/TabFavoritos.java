@@ -30,7 +30,6 @@ public class TabFavoritos extends Fragment {
     private ViewGroup contaner;
     private ListView lista;
     private Spinner spinnerCategoria;
-    private ArrayAdapter<TabHistorial.Objetos> adapter;
     private String []categorias={"Todo","Java","C#"};
     private ArrayList<DatosEscaner> listaDatos=new ArrayList<>();
     private DatabaseReference dFirebase;
@@ -43,9 +42,6 @@ public class TabFavoritos extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
          View view = inflater.inflate(R.layout.fragment_tab_favoritos, container, false);
          lista=view.findViewById(R.id.listViewFav);
-         spinnerCategoria=view.findViewById(R.id.spinnerFavoritos);
-
-         spinnerCategoria.setAdapter(new ArrayAdapter<>(view.getContext(),android.R.layout.simple_list_item_1,categorias));
          dFirebase= FirebaseDatabase.getInstance().getReference();
          String emailUsuario= FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
          if(!datosMostrados||tamanioInicial>=0){
