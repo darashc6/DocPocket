@@ -71,6 +71,5 @@ public class TabFavoritos extends Fragment {
         return view;
     }
 
-
 }
 

@@ -17,10 +17,24 @@
 
     </SearchView>
 
+<<<<<<< HEAD
+    <Spinner
+        android:id="@+id/idSpinnerLenguajes"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:foregroundTint="#961313"
+        app:layout_constraintBottom_toTopOf="@+id/idLista"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/idBusqueda"
+        app:layout_constraintTop_toTopOf="parent" />
+
+=======
+>>>>>>> 3f88409e784ff50f749c4d58d902b16668a071e5
     <ListView
         android:id="@+id/idLista"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:foregroundTint="#AA0909"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
