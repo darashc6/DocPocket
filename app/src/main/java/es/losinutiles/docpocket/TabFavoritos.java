@@ -8,16 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,10 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.prefs.Preferences;
 
 public class TabFavoritos extends Fragment {
-    private Button botonQuitarFav;
     private DatosEscaner de;
     private MainActivity main;
     private ViewGroup contaner;
@@ -43,9 +36,11 @@ public class TabFavoritos extends Fragment {
     private DatabaseReference dFirebase;
     private AdaptadorListView adaptador;
     private boolean datosMostrados=false;
+    private long tamanioInicial=0;
+
     @Nullable
     @Override
-    public  View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
          View view = inflater.inflate(R.layout.fragment_tab_favoritos, container, false);
          lista=view.findViewById(R.id.listViewFav);
          spinnerCategoria=view.findViewById(R.id.spinnerFavoritos);
@@ -53,22 +48,24 @@ public class TabFavoritos extends Fragment {
          spinnerCategoria.setAdapter(new ArrayAdapter<>(view.getContext(),android.R.layout.simple_list_item_1,categorias));
          dFirebase= FirebaseDatabase.getInstance().getReference();
          String emailUsuario= FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
-         if(!datosMostrados){
+         if(!datosMostrados||tamanioInicial>=0){
              dFirebase.child("DatosUsuario").child(emailUsuario).child("TabFavoritos").addValueEventListener(new ValueEventListener() {
                  @Override
                  public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                     listaDatos.clear();
                      if(dataSnapshot.exists()){
                          long nEscaneado=dataSnapshot.getChildrenCount();
-                         if (nEscaneado>0) {
+                         if (nEscaneado!=tamanioInicial) {
                              for (DataSnapshot ds: dataSnapshot.getChildren()) {
                                   de=ds.getValue(DatosEscaner.class);
                                  listaDatos.add(de);
                              }
-                             adaptador=new AdaptadorListView(getContext(),listaDatos);
-                             lista.setAdapter(adaptador);
                              datosMostrados=true;
+                             tamanioInicial=nEscaneado;
                          }
                      }
+                     adaptador=new AdaptadorListView(getContext(),listaDatos);
+                     lista.setAdapter(adaptador);
                  }
                  @Override
                  public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -77,9 +74,8 @@ public class TabFavoritos extends Fragment {
              });
          }
 
-
-
-
+        adaptador=new AdaptadorListView(getContext(),listaDatos);
+        lista.setAdapter(adaptador);
 
         return view;
     }

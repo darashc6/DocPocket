@@ -239,14 +239,8 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void aniadirAFavorito(View view) {
-
         DatosEscaner de=null;
-        Button botonAñadirFavorito;
-        Button botonQuitarFavorito;
-        botonAñadirFavorito=view.getRootView().findViewById(R.id.botonFav);
-        botonQuitarFavorito=view.getRootView().findViewById(R.id.botonFav2);
         TextView nombreClase=view.getRootView().findViewById(R.id.idTituloVariable);
-
         String nombre=nombreClase.getText().toString();
 
         TextView fecha=view.getRootView().findViewById(R.id.idTextoHistorial);
@@ -262,12 +256,6 @@ public class MainActivity extends AppCompatActivity  {
 
         Toast.makeText(this,"Se ha añadido a favoritos",Toast.LENGTH_LONG).show();
 
-        Intent refresh=new Intent(this, MainActivity.class);
-        startActivity(refresh);
-        this.finish();
-
-
-
         /*if (bundle.getString("lenguajeElegido").equals("Java")) {
             de=new DatosEscaner(palabraEscaneada, "Hoy", R.drawable.icono_java);
         } else {
@@ -278,26 +266,18 @@ public class MainActivity extends AppCompatActivity  {
         intentPaginaBusqueda.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intentPaginaBusqueda);
         Toast.makeText(getApplicationContext(), "¡Texto escaneado!", Toast.LENGTH_LONG).show()*/
+        this.recreate();
     }
 
     public void quitarFavorito(View view) {
-        Button botonAñadirFavorito;
-        Button botonQuitarFavorito;
-        botonAñadirFavorito=view.getRootView().findViewById(R.id.botonFav);
-        botonQuitarFavorito=view.getRootView().findViewById(R.id.botonFav2);
-        botonAñadirFavorito.setVisibility(View.VISIBLE);
-        botonQuitarFavorito.setVisibility(View.INVISIBLE);
-        TextView nombreClase=view.getRootView().findViewById(R.id.idTituloVariable);
-        Log.d("Datos",nombreClase.getText().toString());
-        aFirebase=FirebaseAuth.getInstance();
-        usuario=aFirebase.getCurrentUser().getEmail().split("@")[0];
+        TextView nombreClase = view.getRootView().findViewById(R.id.idTituloVariable);
+        Log.d("Datos", nombreClase.getText().toString());
+        aFirebase = FirebaseAuth.getInstance();
+        usuario = aFirebase.getCurrentUser().getEmail().split("@")[0];
         referencia.child("DatosUsuario").child(usuario).child("TabFavoritos").child(nombreClase.getText().toString()).removeValue();
 
-        Toast.makeText(this,"Se ha borrado "+nombreClase.getText().toString(),Toast.LENGTH_LONG).show();
-
-        Intent refresh=new Intent(this, MainActivity.class);
-        startActivity(refresh);
-        this.finish();
+        Toast.makeText(this, "Se ha borrado " + nombreClase.getText().toString(), Toast.LENGTH_LONG).show();
+        this.recreate();
     }
 }
 

@@ -10,4 +10,8 @@
     <color name="Rojo">#ff0000</color>
     <color name="colorBotonPresionado">#d5d2d2</color>
     <color name="colorTransparente">#00ffffff</color>
+    <color name="colorStackOverflow">#ff751a</color>
+    <color name="colorStackOverflowpresionado">#cc5200</color>
+    <color name="colorYoutube">@color/Rojo</color>
+    <color name="colorYoutubepresionado">#cc0000</color>
 </resources>

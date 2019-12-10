@@ -19,14 +19,13 @@ import java.util.ArrayList;
 
 public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
     private MainActivity main; // Actividad principal
-    private Button botonQuitarFav;
+    private Button botonFavorito;
     private DatabaseReference referencia;
     private TextView textoTituloVariable; // TextView con el nombre de la clase
     private TextView textoFechaHistorial; // TextView con la fecha de la captura
     private Context contexto; // Contexto de la aplicación
     private ArrayList<DatosEscaner>lista; // ArrayList de datos escaneados
-    private  String usuario;
-    private FirebaseAuth aFirebase;
+    private String usuario;
     /**
      * Constructor de AdaptadorListView
      * @param context Contexto de la aplicación
@@ -37,8 +36,7 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
         this.contexto=context;
         this.lista=lista;
         referencia= FirebaseDatabase.getInstance().getReference();
-
-
+        usuario=FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
     }
 
     /**
@@ -58,20 +56,13 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
         textoFechaHistorial=(TextView)view.findViewById(R.id.idTextoHistorial);
         ImageView imagenFoto=(ImageView)view.findViewById((R.id.idImagenFoto));
         ImageView imagenHistorial=(ImageView)view.findViewById((R.id.idDiasConsulta));
-        botonQuitarFav=view.findViewById(R.id.botonFav);
+        botonFavorito=view.findViewById(R.id.botonFav);
 
         textoTituloVariable.setText(lista.get(i).getNombreClase());
         textoFechaHistorial.setText(lista.get(i).getDias());
         imagenFoto.setImageResource(lista.get(i).getIdImagen());
         imagenHistorial.setImageResource(R.drawable.ic_today_black_24dp);
         imagenHistorial.setTag(i);
-        botonQuitarFav.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                return false;
-            }
-        });
         if (lista.get(i).getIdImagen()==R.drawable.icono_java) {
             imagenFoto.setTag(R.drawable.icono_java);
         } else {
@@ -86,16 +77,20 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
             textoFechaHistorial.setTextColor(contexto.getColor(R.color.modoOscuro));
         }
 
-        /*imagenFoto.setOnClickListener(new View.OnClickListener() {
+        botonFavorito.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent visorImagen=new Intent(contexto,VisorImagen.class);
-                visorImagen.putExtra("IMG",datosImg[(Integer) view.getTag()]);
-                contexto.startActivity(visorImagen);
-
-
+            public void onClick(View v) {
+                if (!lista.get(i).isFavorito()) {
+                    lista.get(i).setFavorito(true);
+                    referencia.child("DatosUsuario").child(usuario).child("TabFavoritos").child(lista.get(i).getNombreClase()).setValue(lista.get(i));
+                    Toast.makeText(contexto, lista.get(i).getNombreClase()+": Añadido a favoritos", Toast.LENGTH_LONG).show();
+                } else {
+                    lista.get(i).setFavorito(false);
+                    referencia.child("DatosUsuario").child(usuario).child("TabFavoritos").child(lista.get(i).getNombreClase()).removeValue();
+                    Toast.makeText(contexto, lista.get(i).getNombreClase()+": Borrado de favoritos", Toast.LENGTH_LONG).show();
+                }
             }
-        });*/
+        });
 
         return view;
     }

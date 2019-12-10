@@ -23,6 +23,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +59,7 @@ public class ActividadCamara extends AppCompatActivity {
     private DatabaseReference referencia; // Base de datos de referencia
     private FirebaseAuth aFirebase;
     private String usuario;
+    private ProgressBar barraProgreso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,7 @@ public class ActividadCamara extends AppCompatActivity {
         palabras=null;
         palabraEscaneada=null;
         imagenCamaraAux=findViewById(R.id.imageView);
+        barraProgreso=findViewById(R.id.progressBar);
         aFirebase=FirebaseAuth.getInstance();
         usuario=aFirebase.getCurrentUser().getEmail().split("@")[0];
 
@@ -199,6 +202,7 @@ public class ActividadCamara extends AppCompatActivity {
                         //por separadas para poder realizar la consulta en firebase
                     }
                     palabras=texto.toString().toLowerCase().split(" ");
+                    barraProgreso.setVisibility(View.VISIBLE);
                     try{
                         referencia= FirebaseDatabase.getInstance().getReference();
                         referencia.child(documentacion).addValueEventListener(new ValueEventListener() {
@@ -237,8 +241,7 @@ public class ActividadCamara extends AppCompatActivity {
                                         intentPaginaBusqueda.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intentPaginaBusqueda);
                                         Toast.makeText(getApplicationContext(), "¡Texto escaneado!", Toast.LENGTH_LONG).show();
-
-
+                                        barraProgreso.setVisibility(View.INVISIBLE);
 
                                         /*Intent intentPaginaBusqueda=new Intent(getApplicationContext(), MainActivity.class);
                                         Bundle bundlePasarDatosClase=new Bundle();
