@@ -31,6 +31,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,6 +56,8 @@ public class ActividadCamara extends AppCompatActivity {
     private static int camaraIDPermision=300; // Código para los permisos de la cámara
     private static int cogerImagenCamaraID=300; // Código para los permisos de recortar el imagen
     private DatabaseReference referencia; // Base de datos de referencia
+    private FirebaseAuth aFirebase;
+    private String usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,8 @@ public class ActividadCamara extends AppCompatActivity {
         palabras=null;
         palabraEscaneada=null;
         imagenCamaraAux=findViewById(R.id.imageView);
+        aFirebase=FirebaseAuth.getInstance();
+        usuario=aFirebase.getCurrentUser().getEmail().split("@")[0];
 
         bundle=getIntent().getExtras();
         if(bundle.getString("lenguajeElegido").equals("Java")){
@@ -221,7 +227,21 @@ public class ActividadCamara extends AppCompatActivity {
                                     // Si encuentra la palabra escaneada, que meta los datos en el Tab de Historial
                                     // TODO Hacer que funcione más de 1 vez
                                     if (palabraEscaneada!=null) {
+                                        DatosEscaner de=null;
+                                        if (bundle.getString("lenguajeElegido").equals("Java")) {
+                                            de=new DatosEscaner(palabraEscaneada, "Hoy", R.drawable.icono_java);
+                                        } else {
+                                            de=new DatosEscaner(palabraEscaneada, "Hoy", R.drawable.csharp_icon);
+                                        }
+                                        referencia.child("DatosUsuario").child(usuario).child("TabHistorial").child(palabraEscaneada).setValue(de);
                                         Intent intentPaginaBusqueda=new Intent(getApplicationContext(), MainActivity.class);
+                                        intentPaginaBusqueda.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intentPaginaBusqueda);
+                                        Toast.makeText(getApplicationContext(), "¡Texto escaneado!", Toast.LENGTH_LONG).show();
+
+
+
+                                        /*Intent intentPaginaBusqueda=new Intent(getApplicationContext(), MainActivity.class);
                                         Bundle bundlePasarDatosClase=new Bundle();
 
                                         bundlePasarDatosClase.putString("nombreClase", palabraEscaneada);
@@ -233,7 +253,7 @@ public class ActividadCamara extends AppCompatActivity {
                                         intentPaginaBusqueda.putExtras(bundlePasarDatosClase);
                                         intentPaginaBusqueda.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intentPaginaBusqueda);
-                                        Toast.makeText(getApplicationContext(), "¡Texto escaneado!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "¡Texto escaneado!", Toast.LENGTH_LONG).show();*/
                                     } else {
                                         errorEscaneando();
                                     }

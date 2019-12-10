@@ -128,9 +128,9 @@ public class MainActivity extends AppCompatActivity  {
     /**
      * Función que muestra la pantalla de ajustes
      */
-    public void modoOscuro() {
-    Intent intent=new Intent(getBaseContext(),PantallaOpciones.class);
-    startActivity(intent);
+    public void modoOscuro(MenuItem item) {
+        Intent intent=new Intent(getBaseContext(),PantallaOpciones.class);
+        startActivity(intent);
     }
 
     /**

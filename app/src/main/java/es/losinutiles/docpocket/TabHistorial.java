@@ -18,6 +18,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.zip.Inflater;
@@ -29,12 +36,14 @@ public class TabHistorial extends Fragment {
     private Spinner spinnerCategoria;
     private ArrayAdapter<Objetos> adapter;
     private String []categorias={"Todo","Java","C#"};
-    ArrayList<DatosEscaner> listaDatos=new ArrayList<>();
+    private ArrayList<DatosEscaner> listaDatos=new ArrayList<>();
+    private DatabaseReference dFirebase;
+    private AdaptadorListView adaptador;
 
     /**
      * Aqui introducimos los valores al listView.
      */
-   //  ArrayList<String[]>array=new ArrayList<String[]>();
+    //ArrayList<String[]>array=new ArrayList<String[]>();
 
     //Todavia no puedo inicializar este array hasta que no tengamos
     //las imagenes guardadas del escaner.
@@ -47,7 +56,37 @@ public class TabHistorial extends Fragment {
         spinnerCategoria=view.findViewById(R.id.idSpinnerLenguajes);
         spinnerCategoria.setAdapter(new ArrayAdapter<>(view.getContext(),android.R.layout.simple_list_item_1,categorias));
 
-        Bundle b=getActivity().getIntent().getExtras();
+        dFirebase=FirebaseDatabase.getInstance().getReference();
+        String nombreUsuario=FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
+        dFirebase.child("DatosUsuario").child(nombreUsuario).child("TabHistorial").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    long nEscaneado=dataSnapshot.getChildrenCount();
+                    if (nEscaneado>0) {
+                        for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                            DatosEscaner de=ds.getValue(DatosEscaner.class);
+                            Toast.makeText(getContext(), de.toString(), Toast.LENGTH_LONG).show();
+                            listaDatos.add(de);
+                        }
+                        Toast.makeText(getContext(), listaDatos.size()+"", Toast.LENGTH_LONG).show();
+                        adaptador=new AdaptadorListView(getContext(),listaDatos);
+                        lista.setAdapter(adaptador);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+        /*Bundle b=getActivity().getIntent().getExtras();
         if (b==null) {
             Toast.makeText(getContext(), "No se que estoy haciendo", Toast.LENGTH_LONG).show();
         } else {
@@ -55,7 +94,7 @@ public class TabHistorial extends Fragment {
             String nombreClase=b.getString("nombreClase");
             int idImagen=b.getInt("idImagenLenguaje");
             listaDatos.add(new DatosEscaner(nombreClase, "njfekn", idImagen));
-        }
+        }*/
 
         /*listaDatos.add(new DatosEscaner("FileWriter","5 dias",R.drawable.icono_java));
         listaDatos.add(new DatosEscaner("BufferedReader","6 dias",R.drawable.icono_csharp));
@@ -69,9 +108,8 @@ public class TabHistorial extends Fragment {
 
         main=new MainActivity();
         this.contaner=container;
-        final AdaptadorListView adaptador=new AdaptadorListView(getContext(),listaDatos);
-
-        lista.setAdapter(adaptador);
+        // Toast.makeText(getContext(), listaDatos.size()+"", Toast.LENGTH_LONG).show();
+        // final AdaptadorListView adaptador=new AdaptadorListView(getContext(),listaDatos);
 
         // initializeViews(view);
 
