@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
     android:layout_marginTop="20dp"
+    android:padding="5dp"
     tools:context=".ActividadBusquedaClases">
 
     <androidx.constraintlayout.widget.Guideline
@@ -55,34 +55,52 @@
 
     <Button
         android:id="@+id/botonStackOverflow"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/buscarStackOverFlow"
         android:onClick="buscarStackOverFlow"
-        app:layout_constraintBottom_toTopOf="@+id/botonGoogle"
+        android:text="@string/buscarStackOverFlow"
+        android:layout_marginTop="100dp"
+        android:textSize="15sp"
+        android:background="@drawable/boton_stackoverflow"
+        android:drawableStart="@drawable/icono_stackoverflow"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idImagenFoto" />
+        app:layout_constraintTop_toBottomOf="@+id/idTituloVariable" />
 
     <Button
         android:id="@+id/botonGoogle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/buscarGoogle"
         android:onClick="buscarGoogle"
-        app:layout_constraintBottom_toTopOf="@+id/botonYoutube"
+        android:text="@string/buscarGoogle"
+        android:background="@drawable/boton_google"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:padding="5dp"
+        android:textSize="15sp"
+        android:drawableStart="@drawable/icono_google"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/botonStackOverflow" />
 
     <Button
         android:id="@+id/botonYoutube"
-        android:onClick="buscarYoutube"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="buscarYoutube"
         android:text="@string/buscarYoutube"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/boton_youtube"
+        android:drawableStart="@drawable/icono_youtube"
+        android:padding="10dp"
+        android:textSize="15sp"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonStackOverflow" />
+        app:layout_constraintTop_toBottomOf="@+id/botonGoogle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

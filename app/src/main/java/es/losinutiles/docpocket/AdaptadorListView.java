@@ -6,17 +6,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
     private MainActivity main; // Actividad principal
+    private Button botonFavorito;
+    private DatabaseReference referencia;
     private TextView textoTituloVariable; // TextView con el nombre de la clase
     private TextView textoFechaHistorial; // TextView con la fecha de la captura
     private Context contexto; // Contexto de la aplicación
     private ArrayList<DatosEscaner>lista; // ArrayList de datos escaneados
-
+    private String usuario;
     /**
      * Constructor de AdaptadorListView
      * @param context Contexto de la aplicación
@@ -26,7 +35,8 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
         super(context,0,lista);
         this.contexto=context;
         this.lista=lista;
-
+        referencia= FirebaseDatabase.getInstance().getReference();
+        usuario=FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
     }
 
     /**
@@ -37,14 +47,17 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
      * @return view del elemento
      */
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater=((Activity)contexto).getLayoutInflater();
         view =inflater.inflate(R.layout.elemento_lista_historial,null);
         main=new MainActivity();
+
         textoTituloVariable=(TextView)view.findViewById(R.id.idTituloVariable);
         textoFechaHistorial=(TextView)view.findViewById(R.id.idTextoHistorial);
         ImageView imagenFoto=(ImageView)view.findViewById((R.id.idImagenFoto));
         ImageView imagenHistorial=(ImageView)view.findViewById((R.id.idDiasConsulta));
+        botonFavorito=view.findViewById(R.id.botonFav);
+
         textoTituloVariable.setText(lista.get(i).getNombreClase());
         textoFechaHistorial.setText(lista.get(i).getDias());
         imagenFoto.setImageResource(lista.get(i).getIdImagen());
@@ -64,16 +77,20 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
             textoFechaHistorial.setTextColor(contexto.getColor(R.color.modoOscuro));
         }
 
-        /*imagenFoto.setOnClickListener(new View.OnClickListener() {
+        botonFavorito.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent visorImagen=new Intent(contexto,VisorImagen.class);
-                visorImagen.putExtra("IMG",datosImg[(Integer) view.getTag()]);
-                contexto.startActivity(visorImagen);
-
-
+            public void onClick(View v) {
+                if (!lista.get(i).isFavorito()) {
+                    lista.get(i).setFavorito(true);
+                    referencia.child("DatosUsuario").child(usuario).child("TabFavoritos").child(lista.get(i).getNombreClase()).setValue(lista.get(i));
+                    Toast.makeText(contexto, lista.get(i).getNombreClase()+": Añadido a favoritos", Toast.LENGTH_LONG).show();
+                } else {
+                    lista.get(i).setFavorito(false);
+                    referencia.child("DatosUsuario").child(usuario).child("TabFavoritos").child(lista.get(i).getNombreClase()).removeValue();
+                    Toast.makeText(contexto, lista.get(i).getNombreClase()+": Borrado de favoritos", Toast.LENGTH_LONG).show();
+                }
             }
-        });*/
+        });
 
         return view;
     }
