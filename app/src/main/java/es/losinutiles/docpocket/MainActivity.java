@@ -49,7 +49,7 @@ import java.io.IOError;
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
     private AdapterParaFragmentos adapter; // Adapter utilizado para los fragmentos
     private ViewPager viewPager; // Despalzar los fragmentos deslizando hacia la izquierda o derecha
     private Toolbar toolbar; // Lo utilizaremos para mostrar las opciones (Los 3 puntitos)
@@ -64,21 +64,19 @@ public class MainActivity extends AppCompatActivity  {
     private DatabaseReference referencia;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        referencia= FirebaseDatabase.getInstance().getReference();
-        dFirebase=FirebaseDatabase.getInstance().getReference();
+        referencia = FirebaseDatabase.getInstance().getReference();
+        dFirebase = FirebaseDatabase.getInstance().getReference();
         setContentView(R.layout.activity_main);
-        adapter=new AdapterParaFragmentos(getSupportFragmentManager());
-        viewPager=findViewById(R.id.viewPager);
-        toolbar=findViewById(R.id.toolbar);
-        opcionesCamara=findViewById(R.id.opcionesCamara);
+        adapter = new AdapterParaFragmentos(getSupportFragmentManager());
+        viewPager = findViewById(R.id.viewPager);
+        toolbar = findViewById(R.id.toolbar);
+        opcionesCamara = findViewById(R.id.opcionesCamara);
         setSupportActionBar(toolbar);
         crearViewPager(viewPager);
-        tb=findViewById(R.id.Tabs);
+        tb = findViewById(R.id.Tabs);
         tb.setupWithViewPager(viewPager); // Mete el viewPager creado dentro del TabLayout
         // Meter iconos del tab
         tb.getTabAt(0).setIcon(getDrawable(R.drawable.icono_lista));
@@ -89,6 +87,7 @@ public class MainActivity extends AppCompatActivity  {
 
     /**
      * Función que mete el adapter al viewPager
+     *
      * @param vp el viewPager donde le queremos meter el adapter
      */
     public void crearViewPager(ViewPager vp) {
@@ -111,9 +110,9 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public boolean onMenuItemSelected(MenuItem menuItem) {
-                Bundle b=new Bundle();
+                Bundle b = new Bundle();
                 b.putString("lenguajeElegido", menuItem.getTitle().toString());
-                Intent intentCamara=new Intent(getApplicationContext(), ActividadCamara.class);
+                Intent intentCamara = new Intent(getApplicationContext(), ActividadCamara.class);
                 intentCamara.putExtras(b);
                 startActivity(intentCamara);
                 return true;
@@ -127,12 +126,13 @@ public class MainActivity extends AppCompatActivity  {
 
     /**
      * Función que crea las opciones del menu
+     *
      * @param menu menu en la que quieres meter las opciones
      * @return
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -140,45 +140,47 @@ public class MainActivity extends AppCompatActivity  {
      * Función que muestra la pantalla de ajustes
      */
     public void modoOscuro(MenuItem item) {
-        Intent intent=new Intent(getBaseContext(),PantallaOpciones.class);
+        Intent intent = new Intent(getBaseContext(), PantallaOpciones.class);
         startActivity(intent);
     }
 
     /**
      * Función que guarda la preferencia del switch del modo oscuro
+     *
      * @param context Contexto de la aplicación
-     * @param oscuro Switch del modo oscuro
+     * @param oscuro  Switch del modo oscuro
      */
-    public void guardarDatosOscuro(Context context,Switch oscuro){
-        if(oscuro.isChecked()){
-            SharedPreferences preferences=context.getSharedPreferences("modoOscuro", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor=preferences.edit();
-            editor.putBoolean("idOscuro",true);
+    public void guardarDatosOscuro(Context context, Switch oscuro) {
+        if (oscuro.isChecked()) {
+            SharedPreferences preferences = context.getSharedPreferences("modoOscuro", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("idOscuro", true);
             editor.commit();
-        }else{
-            SharedPreferences preferences=context.getSharedPreferences("modoOscuro", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor=preferences.edit();
-            editor.putBoolean("idOscuro",false);
+        } else {
+            SharedPreferences preferences = context.getSharedPreferences("modoOscuro", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("idOscuro", false);
             editor.commit();
         }
     }
 
     /**
      * Función que guarda las preferencias del lenguaje por defecto
-     * @param context Contexto de la aplicación
+     *
+     * @param context  Contexto de la aplicación
      * @param lenguaje El lenguaje que ha elegido el usuario
      * @return El lenguaje que ha elegido el usuario
      */
-    public String guardarLenguajeDefecto(Context context, String lenguaje){
-        if(lenguaje=="Java"){
-            SharedPreferences preferences=context.getSharedPreferences("lenguaje", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor=preferences.edit();
-            editor.putString("idLenguaje",lenguaje);
+    public String guardarLenguajeDefecto(Context context, String lenguaje) {
+        if (lenguaje == "Java") {
+            SharedPreferences preferences = context.getSharedPreferences("lenguaje", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("idLenguaje", lenguaje);
             editor.commit();
-        }else{
-            SharedPreferences preferences=context.getSharedPreferences("lenguaje", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor=preferences.edit();
-            editor.putString("idLenguaje",lenguaje);
+        } else {
+            SharedPreferences preferences = context.getSharedPreferences("lenguaje", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("idLenguaje", lenguaje);
             editor.commit();
         }
         return lenguaje;
@@ -186,24 +188,26 @@ public class MainActivity extends AppCompatActivity  {
 
     /**
      * Función que carga la preferencia del lenguaje por defecto elegido por el usuario
+     *
      * @param context Contexto de la aplicación
      * @return El lenguajpor defecto
      */
-    public String CargarLenguaje(Context context){
-        SharedPreferences preferences=context.getSharedPreferences("lenguaje", Context.MODE_PRIVATE);
-        return preferences.getString("idLenguaje","Todos");
+    public String CargarLenguaje(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("lenguaje", Context.MODE_PRIVATE);
+        return preferences.getString("idLenguaje", "Todos");
 
     }
 
     /**
      * Función que carga la preferencia del switch de modo oscuro
+     *
      * @param context Contexto de la aplicación
      * @return Boolean de si el switch ha cambiado o no
      */
 
-    public Boolean CargarPreferencia(Context context){
-        SharedPreferences preferences=context.getSharedPreferences("modoOscuro", Context.MODE_PRIVATE);
-        return preferences.getBoolean("idOscuro",false);
+    public Boolean CargarPreferencia(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("modoOscuro", Context.MODE_PRIVATE);
+        return preferences.getBoolean("idOscuro", false);
 
 
     }
@@ -220,50 +224,51 @@ public class MainActivity extends AppCompatActivity  {
     /**
      * Función que muestra la actividad de busqueda de la clase
      * Se usa al darle clic al item del listview
+     *
      * @param view layout del que viene
      */
     public void mostrarActividadBusqueda(View view) {
-        TextView nombreClase=view.findViewById(R.id.idTituloVariable);
-        ImageView idImagenLenguage=view.findViewById(R.id.idImagenFoto);
-        Intent actividadBusqueda=new Intent(this, ActividadBusquedaClases.class);
-        Bundle b=new Bundle();
+        TextView nombreClase = view.findViewById(R.id.idTituloVariable);
+        ImageView idImagenLenguage = view.findViewById(R.id.idImagenFoto);
+        Intent actividadBusqueda = new Intent(this, ActividadBusquedaClases.class);
+        Bundle b = new Bundle();
         b.putString("claseEscaneado", nombreClase.getText().toString());
         b.putInt("idImagen", Integer.parseInt(idImagenLenguage.getTag().toString()));
         actividadBusqueda.putExtras(b);
 
         // Para hacer animaciones compartidas
-        Pair<View, String> p1=Pair.create((View) nombreClase, getResources().getString(R.string.transicionNombreClase));
-        Pair<View, String> p2=Pair.create((View) idImagenLenguage, getResources().getString(R.string.transicionImagen));
-        ActivityOptionsCompat opt=ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2);
+        Pair<View, String> p1 = Pair.create((View) nombreClase, getResources().getString(R.string.transicionNombreClase));
+        Pair<View, String> p2 = Pair.create((View) idImagenLenguage, getResources().getString(R.string.transicionImagen));
+        ActivityOptionsCompat opt = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2);
         startActivity(actividadBusqueda, opt.toBundle());
     }
-<<<<<<< HEAD
+
 
     public void aniadirAFavorito(View view) {
 
-        DatosEscaner de=null;
+        DatosEscaner de = null;
         Button botonAñadirFavorito;
         Button botonQuitarFavorito;
-        botonAñadirFavorito=view.getRootView().findViewById(R.id.botonFav);
-        botonQuitarFavorito=view.getRootView().findViewById(R.id.botonFav2);
-        TextView nombreClase=view.getRootView().findViewById(R.id.idTituloVariable);
+        botonAñadirFavorito = view.getRootView().findViewById(R.id.botonFav);
+        botonQuitarFavorito = view.getRootView().findViewById(R.id.botonFav2);
+        TextView nombreClase = view.getRootView().findViewById(R.id.idTituloVariable);
 
-        String nombre=nombreClase.getText().toString();
+        String nombre = nombreClase.getText().toString();
 
-        TextView fecha=view.getRootView().findViewById(R.id.idTextoHistorial);
-        int idImagen=0;
+        TextView fecha = view.getRootView().findViewById(R.id.idTextoHistorial);
+        int idImagen = 0;
         if (nombre.contains(" Java")) {
-            idImagen=R.drawable.icono_java;
+            idImagen = R.drawable.icono_java;
         } else {
-            idImagen=R.drawable.icono_csharp;
+            idImagen = R.drawable.icono_csharp;
         }
-        String nombreUsuario=FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
-        de=new DatosEscaner(nombreClase.getText().toString(), fecha.getText().toString(), idImagen);
+        String nombreUsuario = FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
+        de = new DatosEscaner(nombreClase.getText().toString(), fecha.getText().toString(), idImagen);
         dFirebase.child("DatosUsuario").child(nombreUsuario).child("TabFavoritos").child(nombreClase.getText().toString()).setValue(de);
 
-        Toast.makeText(this,"Se ha añadido a favoritos",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Se ha añadido a favoritos", Toast.LENGTH_LONG).show();
 
-        Intent refresh=new Intent(this, MainActivity.class);
+        Intent refresh = new Intent(this, MainActivity.class);
         startActivity(refresh);
         this.finish();
 
@@ -284,19 +289,19 @@ public class MainActivity extends AppCompatActivity  {
     public void quitarFavorito(View view) {
         Button botonAñadirFavorito;
         Button botonQuitarFavorito;
-        botonAñadirFavorito=view.getRootView().findViewById(R.id.botonFav);
-        botonQuitarFavorito=view.getRootView().findViewById(R.id.botonFav2);
+        botonAñadirFavorito = view.getRootView().findViewById(R.id.botonFav);
+        botonQuitarFavorito = view.getRootView().findViewById(R.id.botonFav2);
         botonAñadirFavorito.setVisibility(View.VISIBLE);
         botonQuitarFavorito.setVisibility(View.INVISIBLE);
-        TextView nombreClase=view.getRootView().findViewById(R.id.idTituloVariable);
-        Log.d("Datos",nombreClase.getText().toString());
-        aFirebase=FirebaseAuth.getInstance();
-        usuario=aFirebase.getCurrentUser().getEmail().split("@")[0];
+        TextView nombreClase = view.getRootView().findViewById(R.id.idTituloVariable);
+        Log.d("Datos", nombreClase.getText().toString());
+        aFirebase = FirebaseAuth.getInstance();
+        usuario = aFirebase.getCurrentUser().getEmail().split("@")[0];
         referencia.child("DatosUsuario").child(usuario).child("TabFavoritos").child(nombreClase.getText().toString()).removeValue();
 
-        Toast.makeText(this,"Se ha borrado "+nombreClase.getText().toString(),Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Se ha borrado " + nombreClase.getText().toString(), Toast.LENGTH_LONG).show();
 
-        Intent refresh=new Intent(this, MainActivity.class);
+        Intent refresh = new Intent(this, MainActivity.class);
         startActivity(refresh);
         this.finish();
     }
@@ -304,13 +309,12 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onStart() {
         super.onStart();
-        if(CargarPreferencia(getBaseContext())){
+        if (CargarPreferencia(getBaseContext())) {
             viewPager.setBackgroundResource(R.color.modoOscuro);
-        }else{
+        } else {
             viewPager.setBackgroundResource(R.color.Blanco);
         }
     }
-=======
->>>>>>> 3f88409e784ff50f749c4d58d902b16668a071e5
 }
+
 

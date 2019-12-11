@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,7 +16,6 @@
 
     </SearchView>
 
-<<<<<<< HEAD
     <Spinner
         android:id="@+id/idSpinnerLenguajes"
         android:layout_width="wrap_content"
@@ -28,8 +26,7 @@
         app:layout_constraintStart_toEndOf="@+id/idBusqueda"
         app:layout_constraintTop_toTopOf="parent" />
 
-=======
->>>>>>> 3f88409e784ff50f749c4d58d902b16668a071e5
+
     <ListView
         android:id="@+id/idLista"
         android:layout_width="0dp"

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
+public class AdaptadorListView extends ArrayAdapter<DatosEscaner>implements Filterable {
     private MainActivity main; // Actividad principal
     private Button botonFavorito;
     private DatabaseReference referencia;
@@ -29,6 +30,7 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
     private TextView textoFechaHistorial; // TextView con la fecha de la captura
     private Context contexto; // Contexto de la aplicación
     private ArrayList<DatosEscaner>lista; // ArrayList de datos escaneados
+    private ArrayList<DatosEscaner>fullLista;
     private String usuario;
     /**
      * Constructor de AdaptadorListView
@@ -39,6 +41,7 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
         super(context,0,lista);
         this.contexto=context;
         this.lista=lista;
+        fullLista=new ArrayList<>(lista);
         referencia= FirebaseDatabase.getInstance().getReference();
         usuario=FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
     }
@@ -111,7 +114,7 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
             FilterResults results=new FilterResults();
             ArrayList<DatosEscaner>lista2=new ArrayList<DatosEscaner>();
             if(constraint==null||constraint.length()==0){
-                lista2.addAll(lista);
+                lista2.addAll(fullLista);
             }else{
                 String filter=constraint.toString().toLowerCase().trim();
                 for(DatosEscaner date:lista){
@@ -121,15 +124,16 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner> {
 
                 }
                 results.values = lista2;
-                results.count = lista2.size();
+                return results;
             }
+            results.values = lista2;
             return results;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             lista.clear();
-            lista.addAll((Collection<? extends DatosEscaner>) results.values);
+            lista.addAll((ArrayList)results.values);
             notifyDataSetChanged();
         }
     };
