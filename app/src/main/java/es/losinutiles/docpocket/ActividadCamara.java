@@ -57,9 +57,9 @@ public class ActividadCamara extends AppCompatActivity {
     private static int camaraIDPermision=300; // Código para los permisos de la cámara
     private static int cogerImagenCamaraID=300; // Código para los permisos de recortar el imagen
     private DatabaseReference referencia; // Base de datos de referencia
-    private FirebaseAuth aFirebase;
-    private String usuario;
-    private ProgressBar barraProgreso;
+    private FirebaseAuth aFirebase; // Autenticador de Firebase
+    private String usuario; // Nombre de usuario en Firebase
+    private ProgressBar barraProgreso; // La barra de progreso
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,7 +202,6 @@ public class ActividadCamara extends AppCompatActivity {
                         //por separadas para poder realizar la consulta en firebase
                     }
                     palabras=texto.toString().toLowerCase().split(" ");
-                    barraProgreso.setVisibility(View.VISIBLE);
                     try{
                         referencia= FirebaseDatabase.getInstance().getReference();
                         referencia.child(documentacion).addValueEventListener(new ValueEventListener() {
@@ -232,30 +231,16 @@ public class ActividadCamara extends AppCompatActivity {
                                     if (palabraEscaneada!=null) {
                                         DatosEscaner de=null;
                                         if (bundle.getString("lenguajeElegido").equals("Java")) {
-                                            de=new DatosEscaner(palabraEscaneada, "Hoy", R.drawable.icono_java);
+                                            de=new DatosEscaner(palabraEscaneada, "Java");
                                         } else {
-                                            de=new DatosEscaner(palabraEscaneada, "Hoy", R.drawable.csharp_icon);
+                                            de=new DatosEscaner(palabraEscaneada, "CSharp");
                                         }
                                         referencia.child("DatosUsuario").child(usuario).child("TabHistorial").child(palabraEscaneada).setValue(de);
                                         Intent intentPaginaBusqueda=new Intent(getApplicationContext(), MainActivity.class);
                                         intentPaginaBusqueda.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intentPaginaBusqueda);
                                         Toast.makeText(getApplicationContext(), "¡Texto escaneado!", Toast.LENGTH_LONG).show();
-                                        barraProgreso.setVisibility(View.INVISIBLE);
-
-                                        /*Intent intentPaginaBusqueda=new Intent(getApplicationContext(), MainActivity.class);
-                                        Bundle bundlePasarDatosClase=new Bundle();
-
-                                        bundlePasarDatosClase.putString("nombreClase", palabraEscaneada);
-                                        if(bundle.getString("lenguajeElegido").equals("Java")){
-                                            bundlePasarDatosClase.putInt("idImagenLenguaje", R.drawable.icono_java);
-                                        }else{
-                                            bundlePasarDatosClase.putInt("idImagenLenguaje", R.drawable.icono_csharp);
-                                        }
-                                        intentPaginaBusqueda.putExtras(bundlePasarDatosClase);
-                                        intentPaginaBusqueda.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intentPaginaBusqueda);
-                                        Toast.makeText(getApplicationContext(), "¡Texto escaneado!", Toast.LENGTH_LONG).show();*/
+                                        // barraProgreso.setVisibility(View.INVISIBLE);
                                     } else {
                                         errorEscaneando();
                                     }

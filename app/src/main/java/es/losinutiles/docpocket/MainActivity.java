@@ -56,19 +56,11 @@ public class MainActivity extends AppCompatActivity {
     private FabSpeedDial opcionesCamara; // Botón con la sopciones de elegir el lenguaje
     private TabLayout tb; // Layout del tab
     private Boolean modoDark; // Switch para cambiar el modo osucro
-    private FirebaseAuth uFirebase; // Autenticación de Firebase
-    private FirebaseUser usuarioGoogle; // Usuario de Firebase
-    private DatabaseReference dFirebase;
-    private FirebaseAuth aFirebase;
-    private String usuario;
-    private DatabaseReference referencia;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        referencia = FirebaseDatabase.getInstance().getReference();
-        dFirebase = FirebaseDatabase.getInstance().getReference();
         setContentView(R.layout.activity_main);
         adapter = new AdapterParaFragmentos(getSupportFragmentManager());
         viewPager = findViewById(R.id.viewPager);
@@ -241,69 +233,6 @@ public class MainActivity extends AppCompatActivity {
         Pair<View, String> p2 = Pair.create((View) idImagenLenguage, getResources().getString(R.string.transicionImagen));
         ActivityOptionsCompat opt = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2);
         startActivity(actividadBusqueda, opt.toBundle());
-    }
-
-
-    public void aniadirAFavorito(View view) {
-
-        DatosEscaner de = null;
-        Button botonAñadirFavorito;
-        Button botonQuitarFavorito;
-        botonAñadirFavorito = view.getRootView().findViewById(R.id.botonFav);
-        botonQuitarFavorito = view.getRootView().findViewById(R.id.botonFav2);
-        TextView nombreClase = view.getRootView().findViewById(R.id.idTituloVariable);
-
-        String nombre = nombreClase.getText().toString();
-
-        TextView fecha = view.getRootView().findViewById(R.id.idTextoHistorial);
-        int idImagen = 0;
-        if (nombre.contains(" Java")) {
-            idImagen = R.drawable.icono_java;
-        } else {
-            idImagen = R.drawable.icono_csharp;
-        }
-        String nombreUsuario = FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
-        de = new DatosEscaner(nombreClase.getText().toString(), fecha.getText().toString(), idImagen);
-        dFirebase.child("DatosUsuario").child(nombreUsuario).child("TabFavoritos").child(nombreClase.getText().toString()).setValue(de);
-
-        Toast.makeText(this, "Se ha añadido a favoritos", Toast.LENGTH_LONG).show();
-
-        Intent refresh = new Intent(this, MainActivity.class);
-        startActivity(refresh);
-        this.finish();
-
-
-
-        /*if (bundle.getString("lenguajeElegido").equals("Java")) {
-            de=new DatosEscaner(palabraEscaneada, "Hoy", R.drawable.icono_java);
-        } else {
-            de=new DatosEscaner(palabraEscaneada, "Hoy", R.drawable.csharp_icon);
-        }
-
-        Intent intentPaginaBusqueda=new Intent(getApplicationContext(), MainActivity.class);
-        intentPaginaBusqueda.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intentPaginaBusqueda);
-        Toast.makeText(getApplicationContext(), "¡Texto escaneado!", Toast.LENGTH_LONG).show()*/
-    }
-
-    public void quitarFavorito(View view) {
-        Button botonAñadirFavorito;
-        Button botonQuitarFavorito;
-        botonAñadirFavorito = view.getRootView().findViewById(R.id.botonFav);
-        botonQuitarFavorito = view.getRootView().findViewById(R.id.botonFav2);
-        botonAñadirFavorito.setVisibility(View.VISIBLE);
-        botonQuitarFavorito.setVisibility(View.INVISIBLE);
-        TextView nombreClase = view.getRootView().findViewById(R.id.idTituloVariable);
-        Log.d("Datos", nombreClase.getText().toString());
-        aFirebase = FirebaseAuth.getInstance();
-        usuario = aFirebase.getCurrentUser().getEmail().split("@")[0];
-        referencia.child("DatosUsuario").child(usuario).child("TabFavoritos").child(nombreClase.getText().toString()).removeValue();
-
-        Toast.makeText(this, "Se ha borrado " + nombreClase.getText().toString(), Toast.LENGTH_LONG).show();
-
-        Intent refresh = new Intent(this, MainActivity.class);
-        startActivity(refresh);
-        this.finish();
     }
 
     @Override

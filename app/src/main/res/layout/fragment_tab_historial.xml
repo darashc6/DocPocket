@@ -16,16 +16,6 @@
 
     </SearchView>
 
-    <Spinner
-        android:id="@+id/idSpinnerLenguajes"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:foregroundTint="#961313"
-        app:layout_constraintBottom_toTopOf="@+id/idLista"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/idBusqueda"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
     <ListView
         android:id="@+id/idLista"

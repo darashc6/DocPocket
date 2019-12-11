@@ -24,14 +24,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class PantallaOpciones extends AppCompatActivity {
-    private Switch aSwitch;
-    private ConstraintLayout layout;
-    private RadioButton java;
-    private RadioButton cshar;
-    private MainActivity main;
-    private FirebaseAuth uFirebase;
-    private Activity thisRef;
-    private GoogleSignInClient gsic;
+    private Switch aSwitch; // Switch para el modo oscuro
+    private ConstraintLayout layout; // Layout de la actividad
+    private RadioButton java; // RadioButton para el lenguaje por defecto 'Java'
+    private RadioButton cshar; // RadioButton para el lenguaje por defecto 'Csharp'
+    private MainActivity main; // MainActivity
+    private FirebaseAuth uFirebase; // Autenticación de Firebase
+    private Activity thisRef; // Variable auxiliar de Activity
+    private GoogleSignInClient gsic; // Cliente de inicio de sesión de Google
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

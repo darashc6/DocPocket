@@ -2,27 +2,34 @@ package es.losinutiles.docpocket;
 
 import androidx.annotation.NonNull;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Esta clase modela el nombre de clase, los dias y la imagen.
  *
  */
 public class DatosEscaner {
-    private String nombreClase;
-    private String dias;
-    private int idImagen;
-    private boolean favorito;
+    private String nombreClase; // Nombre de la clase
+    private String dias; // Fecha de la foto escaneada
+    private String lenguaje; // Lenguaje de la clase
+    private boolean favorito; // Si la clase pertenece a la tabla favoritos
 
     /**
      *
      * @param nombreClase coge el nombre de la clase
-     * @param dias coge los dias que han pasado desde que se hizo la consulta
-     * @param idImagen da una imagen u otra
+     * @param lenguaje coge el lenguaje de la clase
      */
 
-    public DatosEscaner(String nombreClase, String dias, int idImagen) {
+    public DatosEscaner(String nombreClase, String lenguaje) {
         this.nombreClase = nombreClase;
-        this.dias = dias;
-        this.idImagen = idImagen;
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        this.dias = df.format(c);;
+        this.lenguaje = lenguaje;
         this.favorito=false;
     }
 
@@ -32,11 +39,6 @@ public class DatosEscaner {
 
     public void setFavorito(boolean favorito) {
         this.favorito = favorito;
-    }
-
-    public DatosEscaner(String nombreClase, String dias) {
-        this.nombreClase = nombreClase;
-        this.dias = dias;
     }
 
     public DatosEscaner() {
@@ -58,17 +60,17 @@ public class DatosEscaner {
         this.dias = dias;
     }
 
-    public int getIdImagen() {
-        return idImagen;
+    public String getLenguaje() {
+        return lenguaje;
     }
 
-    public void setIdImagen(int idImagen) {
-        this.idImagen = idImagen;
+    public void setLenguaje(String lenguaje) {
+        this.lenguaje = lenguaje;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "[NombreClase="+nombreClase+", dias="+dias+", idImagen="+idImagen+"]";
+        return "[NombreClase="+nombreClase+", dias="+dias+", lenguaje="+lenguaje+"]";
     }
 }

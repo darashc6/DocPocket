@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "332517781987-bvh4gus0sudifmikaavp97nrb23j5v2i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.losinutiles.docpocket",
+            "certificate_hash": "5593f2fde26c1fa0ae982d1ef3df208187176a83"
+          }
+        },
+        {
           "client_id": "332517781987-ru534cop3sqaa2eslf02268lpnh781su.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

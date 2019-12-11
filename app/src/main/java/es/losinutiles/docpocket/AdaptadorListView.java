@@ -30,8 +30,8 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner>implements Filt
     private TextView textoFechaHistorial; // TextView con la fecha de la captura
     private Context contexto; // Contexto de la aplicación
     private ArrayList<DatosEscaner>lista; // ArrayList de datos escaneados
-    private ArrayList<DatosEscaner>fullLista;
-    private String usuario;
+    private ArrayList<DatosEscaner>fullLista; // ArrayList de datos escaneados
+    private String usuario; // Nombre de usuario
     /**
      * Constructor de AdaptadorListView
      * @param context Contexto de la aplicación
@@ -67,14 +67,15 @@ public class AdaptadorListView extends ArrayAdapter<DatosEscaner>implements Filt
 
         textoTituloVariable.setText(lista.get(i).getNombreClase());
         textoFechaHistorial.setText(lista.get(i).getDias());
-        imagenFoto.setImageResource(lista.get(i).getIdImagen());
-        imagenHistorial.setImageResource(R.drawable.ic_today_black_24dp);
-        imagenHistorial.setTag(i);
-        if (lista.get(i).getIdImagen()==R.drawable.icono_java) {
+        if (lista.get(i).getLenguaje().equals("Java")) {
+            imagenFoto.setBackgroundResource(R.drawable.icono_java);
             imagenFoto.setTag(R.drawable.icono_java);
         } else {
+            imagenFoto.setBackgroundResource(R.drawable.icono_csharp);
             imagenFoto.setTag(R.drawable.icono_csharp);
         }
+        imagenHistorial.setImageResource(R.drawable.ic_today_black_24dp);
+        imagenHistorial.setTag(i);
 
         if(main.CargarPreferencia(contexto)){
             textoTituloVariable.setTextColor(contexto.getColor(R.color.Blanco));
