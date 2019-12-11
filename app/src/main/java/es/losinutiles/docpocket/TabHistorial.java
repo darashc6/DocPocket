@@ -114,9 +114,4 @@ public class TabHistorial extends Fragment {
 
 
 
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> 1204b66e531bbf47501fc44c66e5339be83e1c89
