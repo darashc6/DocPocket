@@ -21,9 +21,9 @@ public class EnvioMail extends AsyncTask {
     private String nombreEscrito; // Nombre que ha escrito el usuario
     private String emailEscrito; // Email que ha escrito el usuario
     private String mensajeEscrito; // Mensaje que ha escrito el usuario
-    private static final String emailAuxiliar="Info.losinutiles@gmail.com"; // Email auxiliar
-    private static final String contraseniaAuxiliar="Info.losinutiles.4"; // Contraseña del email auxiliar
-    private final String emailLosInutiles="losinutilesbusiness@gmail.com"; // Email oficial de los inútiles
+    private final String emailAuxiliar="Info.losinutiles@gmail.com"; // Email auxiliar
+    private static final String contraseniaAuxiliar="info.losinutiles.4"; // Contraseña del email auxiliar
+    private static final String emailLosInutiles="losinutilesbusiness@gmail.com"; // Email oficial de los inútiles
 
     /**
      * Constructor de la clase EnvioEmail
