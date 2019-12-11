@@ -25,11 +25,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class TabFavoritos extends Fragment {
-    private DatosEscaner de;
+    private DatosEscaner de; //DatosEscaner son los datos que introduciremos en el ArrayList de DatosEscaner
     private MainActivity main;
     private ViewGroup contaner;
     private ListView lista;
-    private Spinner spinnerCategoria;
+    private Spinner spinnerCategoria;//Spinner para ver el lenguaje
     private String []categorias={"Todo","Java","C#"};
     private ArrayList<DatosEscaner> listaDatos=new ArrayList<>();
     private DatabaseReference dFirebase;
@@ -42,17 +42,21 @@ public class TabFavoritos extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
          View view = inflater.inflate(R.layout.fragment_tab_favoritos, container, false);
          lista=view.findViewById(R.id.listViewFav);
+         //Inicia instancia de firebase
          dFirebase= FirebaseDatabase.getInstance().getReference();
          String emailUsuario= FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
         dFirebase.child("DatosUsuario").child(emailUsuario).child("TabFavoritos").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               //limpia listaDatos
                 listaDatos.clear();
+                //Si existe la consulta, añade a listaDatos
                 if(dataSnapshot.exists()){
                     long nEscaneado=dataSnapshot.getChildrenCount();
                     for (DataSnapshot ds: dataSnapshot.getChildren()) {
                         de=ds.getValue(DatosEscaner.class);
                         listaDatos.add(de);
+                        //Añade a listaDatos DatosEscaner de, el cual pertenecía a la bbd de TabHistorial
                     }
                     tamanioInicial=nEscaneado;
                 }

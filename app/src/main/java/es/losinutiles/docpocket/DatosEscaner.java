@@ -12,6 +12,13 @@ public class DatosEscaner {
     private int idImagen;
     private boolean favorito;
 
+    /**
+     *
+     * @param nombreClase coge el nombre de la clase
+     * @param dias coge los dias que han pasado desde que se hizo la consulta
+     * @param idImagen da una imagen u otra
+     */
+
     public DatosEscaner(String nombreClase, String dias, int idImagen) {
         this.nombreClase = nombreClase;
         this.dias = dias;

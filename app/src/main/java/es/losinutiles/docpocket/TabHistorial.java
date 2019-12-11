@@ -33,12 +33,12 @@ import java.util.zip.Inflater;
 public class TabHistorial extends Fragment {
     private MainActivity main;
     private ViewGroup contaner;
-    private ListView lista;
-    private ArrayList<DatosEscaner> listaDatos=new ArrayList<>();
-    private DatabaseReference dFirebase;
-    private AdaptadorListView adaptador;
-    private SearchView barraBusqueda;
-    private ArrayAdapter<DatosEscaner> arrayAdapter;
+    private ListView lista;//ListView donde aparecerán los registros
+    private ArrayList<DatosEscaner> listaDatos=new ArrayList<>();//ArrayList con los datos de los registros
+    private DatabaseReference dFirebase;// DatabaseReference para poder acceder a la BBD
+    private AdaptadorListView adaptador;//AdaptadorListView donde se muestran los datos que queremos
+    private SearchView barraBusqueda;//Barra de busqueda
+    private ArrayAdapter<DatosEscaner> arrayAdapter;//ArrayAdapter da la vista para los objetos de listaDatos
 
 
     /**
@@ -51,8 +51,11 @@ public class TabHistorial extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab_historial, container, false);
         lista = view.findViewById(R.id.idLista);
 
+            //Iniciamos instancia de firebase
         dFirebase=FirebaseDatabase.getInstance().getReference();
+        //Obtenemos el usuario que se identifica por tener el carater @
         String nombreUsuario=FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0];
+        //Esta funcion se encarga de buscar en la base de datos, en la carpeta de DatosUsuario, en la carpeta de TabHistorial
         dFirebase.child("DatosUsuario").child(nombreUsuario).child("TabHistorial").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -61,6 +64,7 @@ public class TabHistorial extends Fragment {
                     for (DataSnapshot ds: dataSnapshot.getChildren()) {
                         DatosEscaner de=ds.getValue(DatosEscaner.class);
                         listaDatos.add(de);
+                        //Se van añadiendo los datos que se encuentran a listaDatos
                     }
                     adaptador=new AdaptadorListView(getContext(),listaDatos);
                     lista.setAdapter(adaptador);
@@ -110,4 +114,9 @@ public class TabHistorial extends Fragment {
 
 
 
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 1204b66e531bbf47501fc44c66e5339be83e1c89
